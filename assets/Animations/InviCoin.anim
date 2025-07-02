@@ -1,0 +1,73 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "InviCoin",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.0833333333333333,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "9ad0a6be-e50c-4112-a515-8807da58d1b1"
+            }
+          },
+          {
+            "frame": 0.13333333333333333,
+            "value": {
+              "__uuid__": "830c534f-1547-45ea-ad43-bc74d8b6f39e"
+            }
+          },
+          {
+            "frame": 0.26666666666666666,
+            "value": {
+              "__uuid__": "5bc27dcb-cddd-47e6-ab83-4e89f5c8e159"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "ff02ef82-8984-4c4b-808c-0f762a801131"
+            }
+          },
+          {
+            "frame": 0.5333333333333333,
+            "value": {
+              "__uuid__": "5fedd5cc-720d-41af-be3b-734d01c87875"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "8399496f-691b-4474-a779-8e2b704660ad"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "8726f939-9c51-40dd-bf11-3ad85f3e92af"
+            }
+          },
+          {
+            "frame": 0.9333333333333333,
+            "value": {
+              "__uuid__": "9cde4053-fac1-491d-95a7-b0f533c3823f"
+            }
+          },
+          {
+            "frame": 1.0666666666666667,
+            "value": {
+              "__uuid__": "9ad0a6be-e50c-4112-a515-8807da58d1b1"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

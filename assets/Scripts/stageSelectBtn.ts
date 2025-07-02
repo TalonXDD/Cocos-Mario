@@ -3,7 +3,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class stageSelectBtn extends cc.Component {
 
-    @property({type: cc.SceneAsset, tooltip: "The stage will go to."})
+    @property(cc.SceneAsset)
     goStage: cc.SceneAsset = null;
     
     // LIFE-CYCLE CALLBACKS:
