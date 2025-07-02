@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "0074b08a-07fc-4483-8612-7f98589671e5",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa0_jyotyu_staffRoll": {
+      "ver": "1.0.6",
+      "uuid": "9ce87c8e-dffa-459a-9032-5312a37526db",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "0074b08a-07fc-4483-8612-7f98589671e5",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -12.5,
+      "trimX": 0,
+      "trimY": 25,
+      "width": 384,
+      "height": 359,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

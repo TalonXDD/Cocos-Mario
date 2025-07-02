@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d03e1dd4-6ec9-49c8-9e77-b7d378939c88",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa1_dokan_naibu": {
+      "ver": "1.0.6",
+      "uuid": "889419e9-e03e-4b06-939a-86ef380d4d6e",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d03e1dd4-6ec9-49c8-9e77-b7d378939c88",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 384,
+      "height": 384,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

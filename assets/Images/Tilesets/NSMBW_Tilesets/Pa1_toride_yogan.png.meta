@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "82e080f0-03ee-4d6d-b292-b31e34ab658c",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa1_toride_yogan": {
+      "ver": "1.0.6",
+      "uuid": "3881d510-6f75-456a-8a6f-7ca79fd9af73",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "82e080f0-03ee-4d6d-b292-b31e34ab658c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 384,
+      "height": 384,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

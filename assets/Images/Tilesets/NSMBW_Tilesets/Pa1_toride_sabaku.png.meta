@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "6c64837a-dbaf-4c62-ac1d-b92d0499e9a1",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa1_toride_sabaku": {
+      "ver": "1.0.6",
+      "uuid": "346f213f-def4-49a5-8f6d-e89e6cfa3f91",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "6c64837a-dbaf-4c62-ac1d-b92d0499e9a1",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 384,
+      "height": 384,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

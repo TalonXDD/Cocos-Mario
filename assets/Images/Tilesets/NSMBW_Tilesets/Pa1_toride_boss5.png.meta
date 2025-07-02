@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "0f68f6fd-62dc-4403-b23e-567911660467",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa1_toride_boss5": {
+      "ver": "1.0.6",
+      "uuid": "79b7a6f2-5e5c-4fab-adf0-b8eeeae4bf4e",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "0f68f6fd-62dc-4403-b23e-567911660467",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 384,
+      "height": 384,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

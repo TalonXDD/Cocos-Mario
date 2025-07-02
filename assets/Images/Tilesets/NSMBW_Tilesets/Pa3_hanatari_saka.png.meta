@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9703ddcb-4451-49b8-8f91-a5c9d40d5adc",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa3_hanatari_saka": {
+      "ver": "1.0.6",
+      "uuid": "d63e6016-0536-4148-901d-89666e33369c",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "9703ddcb-4451-49b8-8f91-a5c9d40d5adc",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -120,
+      "offsetY": 174,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 144,
+      "height": 36,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

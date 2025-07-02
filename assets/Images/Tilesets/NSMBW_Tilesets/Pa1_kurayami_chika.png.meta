@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "850c442b-fbe8-452c-8b32-ed28d8a50410",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa1_kurayami_chika": {
+      "ver": "1.0.6",
+      "uuid": "24014a21-df3e-4d1a-a0ea-3d9d0e891009",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "850c442b-fbe8-452c-8b32-ed28d8a50410",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -96,
+      "offsetY": 24,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 192,
+      "height": 336,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

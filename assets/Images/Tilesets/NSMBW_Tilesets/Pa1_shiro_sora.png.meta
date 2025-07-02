@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "dab860a6-5f8c-4377-9e12-862b4c9d2249",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 384,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Pa1_shiro_sora": {
+      "ver": "1.0.6",
+      "uuid": "acb80cc1-3cac-4587-936d-0a5ea99312f6",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "dab860a6-5f8c-4377-9e12-862b4c9d2249",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 384,
+      "height": 384,
+      "rawWidth": 384,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
