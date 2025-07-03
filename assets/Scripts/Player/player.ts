@@ -41,6 +41,11 @@ export default class player extends cc.Component {
         this.gameMgr = cc.find("GameManager").getComponent("gameManager");
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
         this.anim = this.getComponent(cc.Animation);
+
+        this.direction = Direction.RIGHT;
+        this.onGround = false;
+        this.run = false;
+        this.jumpable = false;
     }
 
     update (dt) {
@@ -53,27 +58,51 @@ export default class player extends cc.Component {
 
     onKeyDown(event) {
         if (event.keyCode == cc.macro.KEY.space) {
-
+            if (this.onGround && this.jumpable) {
+                this.onGround = false;
+                this.jumpable = false;
+                // TODO: Do jump things
+            }
         }
-        else if (event.keyCode == cc.macro.KEY.a) {
-
+        else if (event.keyCode == cc.macro.KEY.a || event.keyCode == cc.macro.KEY.left) {
+            if (this.direction == Direction.RIGHT) {
+                this.node.scaleX *= -1;
+                this.direction = Direction.LEFT;
+            }
         }
-        else if (event.keyCode == cc.macro.KEY.d) {
+        else if (event.keyCode == cc.macro.KEY.d || event.keyCode == cc.macro.KEY.right) {
+            if (this.direction == Direction.LEFT) {
+                this.node.scaleX *= -1;
+                this.direction = Direction.RIGHT;
+            }
 
         }
         else if (event.keyCode == cc.macro.KEY.shift) {
-
+            this.run = true;
         }
     }
 
     onKeyUp(event) {
-        
+        if (event.keyCode == cc.macro.KEY.space) {
+
+        }
+        else if (event.keyCode == cc.macro.KEY.a || event.keyCode == cc.macro.KEY.left) {
+            // Do nothing
+        }
+        else if (event.keyCode == cc.macro.KEY.d || event.keyCode == cc.macro.KEY.right) {
+            // Do nothing
+        }
+        else if (event.keyCode == cc.macro.KEY.shift) {
+            this.run = false;
+        }
     }
 
     onBeginContact(contact, self, other) {
         if (other.node.group == "Floor") {
-            this.onGround = true;
-            this.jumpable = true;
+            if (contact.getWorldManifold().normal.y <= -0.4) {
+                this.onGround = true;
+                this.jumpable = true;
+            }
         }
         else if (other.node.group == "Enemy") {
             if (contact.getWorldManifold().normal.y != -1) {
