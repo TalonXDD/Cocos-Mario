@@ -15,7 +15,7 @@ export default class coin extends cc.Component {
 
     onBeginContact(contact, self, other) {
         if (other.node.group == "Player") {
-            cc.find("StageManager").getComponent("stageManager").addScore(100);
+            cc.find("GameManager").getComponent("gameManager").addScore(100);
             self.node.destroy();
         }
     }

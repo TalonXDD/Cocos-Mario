@@ -10,7 +10,7 @@ enum GameState {
 }
 
 @ccclass
-export default class stageManager extends cc.Component {
+export default class gameManager extends cc.Component {
 
     private timer: number = 300;
     private score: number = 0;

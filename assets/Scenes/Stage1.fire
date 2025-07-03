@@ -65,7 +65,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "StageManager",
+    "_name": "GameManager",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -133,7 +133,7 @@
       "__id__": 2
     },
     "_enabled": true,
-    "_id": "3dUocqNc1AzaTGa5QSFXL2"
+    "_id": "5ebsdjcVpEeqoGlQgz70VG"
   },
   {
     "__type__": "cc.Node",
