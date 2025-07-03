@@ -12,6 +12,9 @@ export default class brick extends cc.Component {
     @property({type: cc.Enum(brickType)})
     blockType: brickType = brickType.EMPTY;
 
+    @property()
+    hitCount: number = 1;
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}

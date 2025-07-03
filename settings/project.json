@@ -1,11 +1,66 @@
 {
   "start-scene": "29482b16-f5a1-43d1-b474-06e05f80de14",
   "group-list": [
-    "default"
+    "default",
+    "Floor",
+    "Player",
+    "Enemy",
+    "Item",
+    "Block",
+    "Pole"
   ],
   "collision-matrix": [
     [
       true
+    ],
+    [
+      false,
+      false,
+      true,
+      true,
+      true
+    ],
+    [
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      null,
+      true
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      true,
+      true,
+      true,
+      false
+    ],
+    [
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false
     ]
   ],
   "excluded-modules": [

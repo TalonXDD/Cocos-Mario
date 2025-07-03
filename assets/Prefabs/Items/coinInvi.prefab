@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "qBlock",
+    "_name": "coinInvi",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -81,8 +81,8 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
+    "_groupIndex": 4,
+    "groupIndex": 4,
     "_id": ""
   },
   {
@@ -101,7 +101,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "99212e47-97fc-401e-bd35-9bfa4a22d610"
+      "__uuid__": "9ad0a6be-e50c-4112-a515-8807da58d1b1"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -115,7 +115,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "c4078157-5070-449c-934a-a6ca408e8f82"
+      "__uuid__": "067c82ea-267f-4cae-a8a5-c6c0a39e1fbf"
     },
     "_id": ""
   },
@@ -128,11 +128,11 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
+      "__uuid__": "f1c75461-d1b1-4e14-a53e-efb512d4b4a2"
     },
     "_clips": [
       {
-        "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
+        "__uuid__": "f1c75461-d1b1-4e14-a53e-efb512d4b4a2"
       }
     ],
     "playOnLoad": true,
@@ -146,7 +146,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_type": 0,
+    "_type": 1,
     "_allowSleep": true,
     "_gravityScale": 1,
     "_linearDamping": 0,
@@ -157,7 +157,7 @@
       "y": 0
     },
     "_angularVelocity": 0,
-    "_fixedRotation": true,
+    "_fixedRotation": false,
     "enabledContactListener": true,
     "bullet": false,
     "awakeOnLoad": true,
@@ -173,7 +173,7 @@
     "_enabled": true,
     "tag": 0,
     "_density": 1,
-    "_sensor": false,
+    "_sensor": true,
     "_friction": 0.2,
     "_restitution": 0,
     "body": null,
@@ -190,14 +190,14 @@
     "_id": ""
   },
   {
-    "__type__": "fbcc7tJoiRMao/PO4poO28j",
+    "__type__": "dcfa1KiETlMq4IM3FfRXSPe",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "blockType": 0,
+    "changeTime": 0.5,
     "_id": ""
   },
   {
