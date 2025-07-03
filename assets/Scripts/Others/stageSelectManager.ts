@@ -23,11 +23,7 @@ export default class stageSelectManager extends cc.Component {
     // onLoad () {}
 
     start () {
-        if (this.BGM) {
-            cc.audioEngine.playMusic(this.BGM, true);
-        } else {
-            cc.error("Stage select BGM audio source is not set.");
-        }
+        cc.audioEngine.playMusic(this.BGM, true);
     }
 
     // update (dt) {}
@@ -35,11 +31,7 @@ export default class stageSelectManager extends cc.Component {
     playStageSE() {
         if (this.stageSE1 == null || this.stageSE2 == null) {
             // Only one SE available
-            if (this.stageSE0) {
-                cc.audioEngine.playEffect(this.stageSE0, false);
-            } else {
-                cc.error("Stage select SE 0 audio source is not set.");
-            }
+            cc.audioEngine.playEffect(this.stageSE0, false);
         }
         else {
             // Have multiple SEs
@@ -58,20 +50,12 @@ export default class stageSelectManager extends cc.Component {
                 default:
                     selectedSE = this.stageSE0;
                     
-                if (selectedSE) {
-                    cc.audioEngine.playEffect(selectedSE, false);
-                } else {
-                    cc.error("Stage select SE " + randomIdx + " audio source is not set.");
-                }
+                cc.audioEngine.playEffect(selectedSE, false);
             }
         }
     }
 
     playQuitSE() {
-        if (this.quitSE) {
-            cc.audioEngine.playEffect(this.quitSE, false);
-        } else {
-            cc.error("Stage select quit SE audio source is not set.");
-        }
+        cc.audioEngine.playEffect(this.quitSE, false);
     }
 }

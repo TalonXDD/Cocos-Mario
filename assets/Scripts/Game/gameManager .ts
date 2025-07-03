@@ -11,10 +11,15 @@ enum GameState {
 
 @ccclass
 export default class gameManager extends cc.Component {
-
+    
+    // Game properties
     private timer: number = 300;
-    private score: number = 0;
     private gameState: GameState = GameState.LOADING;
+
+    // Player properties
+    private score: number = 0;
+    private coins: number = 0;
+    private lives: number = 5;
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -49,6 +54,15 @@ export default class gameManager extends cc.Component {
         cc.log("Set Timer: " + this.timer);
     }
 
+    getGameState(): GameState {
+        return this.gameState;
+    }
+
+    setGameState(state: GameState): void {
+        this.gameState = state;
+        cc.log("Set Game State: " + GameState[this.gameState]);
+    }
+
     getScore(): number {
         return this.score;
     }
@@ -58,13 +72,22 @@ export default class gameManager extends cc.Component {
         cc.log("Set Score: " + this.score);
     }
 
-    getGameState(): GameState {
-        return this.gameState;
+    getCoins(): number {
+        return this.coins;
     }
 
-    setGameState(state: GameState): void {
-        this.gameState = state;
-        cc.log("Set Game State: " + GameState[this.gameState]);
+    setCoins(value: number): void {
+        this.coins = value;
+        cc.log("Set Coins: " + this.coins);
+    }
+
+    getLives(): number {
+        return this.lives;
+    }
+
+    setLives(value: number): void {
+        this.lives = value;
+        cc.log("Set Lives: " + this.lives);
     }
 
     /**
@@ -76,5 +99,23 @@ export default class gameManager extends cc.Component {
         cc.log("Add Score: " + value + ", Current Score: " + this.score);
     }
 
-    
+    addCoins(value: number): void {
+        this.coins += value;
+        cc.log("Add Coins: " + value + ", Current Coins: " + this.coins);
+    }
+
+    addLives(value: number): void {
+        this.lives += value;
+        cc.log("Add Lives: " + value + ", Current Lives: " + this.lives);
+    }
+
+    playerDied(): void {
+        this.setGameState(GameState.GAME_OVER);
+        cc.log("Player Died! Game Over!");
+    }
+
+    playerWon(): void {
+        this.setGameState(GameState.WIN);
+        cc.log("Player Won! Congratulations!");
+    }
 }

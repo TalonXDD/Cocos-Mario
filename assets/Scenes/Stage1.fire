@@ -18,6 +18,9 @@
       },
       {
         "__id__": 4
+      },
+      {
+        "__id__": 6
       }
     ],
     "_active": false,
@@ -137,6 +140,121 @@
   },
   {
     "__type__": "cc.Node",
+    "_name": "AudioManager",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 5
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "4bAXjjlKpPTazuxOm/tGor"
+  },
+  {
+    "__type__": "698e2cZwKhHFr13rto6pGbp",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 4
+    },
+    "_enabled": true,
+    "BGM": {
+      "__uuid__": "1f30aa93-cbe0-4aa7-b610-b4b2054ad228"
+    },
+    "BGMfast": {
+      "__uuid__": "a2c2d4d7-3c99-4280-b008-0256ed21343f"
+    },
+    "hurryUp": {
+      "__uuid__": "830fba06-1102-4d6b-a9c8-ddbcfbada656"
+    },
+    "win": {
+      "__uuid__": "b238b8a5-d912-4294-8276-78ad6ddee4cb"
+    },
+    "gameOver": {
+      "__uuid__": "16bf790e-ab93-491c-b1d0-6bdb6b79e781"
+    },
+    "pause": null,
+    "resume": null,
+    "jump": null,
+    "changeBig": {
+      "__uuid__": "e82287a6-b965-476e-afd7-218410269c46"
+    },
+    "changeSmall": {
+      "__uuid__": "f4955b1d-e8d1-4da7-bb15-4232bcf532df"
+    },
+    "lifeLoss": {
+      "__uuid__": "d8fe86b5-2f03-4ec0-a552-4a22a5418254"
+    },
+    "enemyHurt": null,
+    "turtleKick": null,
+    "turtleHitWall": null,
+    "coin": {
+      "__uuid__": "31f24ba7-28b6-42cb-8105-ff2152d292d6"
+    },
+    "brick": {
+      "__uuid__": "ae77317c-167f-4bd4-a551-88433d356304"
+    },
+    "item": null,
+    "starCoin": {
+      "__uuid__": "27918186-f1a7-440b-9e92-0745130c9fad"
+    },
+    "oneUp": {
+      "__uuid__": "526d634c-8519-42d2-a63e-f4c843210fa3"
+    },
+    "_id": "ec0fwlLWpMTL1scBy+TVV1"
+  },
+  {
+    "__type__": "cc.Node",
     "_name": "Canvas",
     "_objFlags": 0,
     "_parent": {
@@ -144,22 +262,22 @@
     },
     "_children": [
       {
-        "__id__": 5
-      },
-      {
-        "__id__": 6
+        "__id__": 7
       },
       {
         "__id__": 8
+      },
+      {
+        "__id__": 10
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 33
+        "__id__": 35
       },
       {
-        "__id__": 34
+        "__id__": 36
       }
     ],
     "_prefab": null,
@@ -215,7 +333,7 @@
     "_name": "UI",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 4
+      "__id__": 6
     },
     "_children": [],
     "_active": true,
@@ -273,13 +391,13 @@
     "_name": "Main Camera",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 4
+      "__id__": 6
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 7
+        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -335,7 +453,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 6
+      "__id__": 8
     },
     "_enabled": true,
     "_cullingMask": 4294967295,
@@ -371,14 +489,11 @@
     "_name": "world1_map",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 4
+      "__id__": 6
     },
     "_children": [
       {
-        "__id__": 9
-      },
-      {
-        "__id__": 22
+        "__id__": 11
       },
       {
         "__id__": 24
@@ -387,13 +502,16 @@
         "__id__": 26
       },
       {
-        "__id__": 27
+        "__id__": 28
+      },
+      {
+        "__id__": 29
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 32
+        "__id__": 34
       }
     ],
     "_prefab": null,
@@ -449,17 +567,11 @@
     "_name": "地板層",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 10
     },
     "_children": [],
     "_active": true,
     "_components": [
-      {
-        "__id__": 10
-      },
-      {
-        "__id__": 11
-      },
       {
         "__id__": 12
       },
@@ -489,6 +601,12 @@
       },
       {
         "__id__": 21
+      },
+      {
+        "__id__": 22
+      },
+      {
+        "__id__": 23
       }
     ],
     "_prefab": null,
@@ -544,7 +662,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "_materials": [
@@ -562,7 +680,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "_type": 0,
@@ -587,7 +705,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -640,7 +758,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -723,7 +841,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -786,7 +904,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -874,7 +992,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -927,7 +1045,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -980,7 +1098,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -1033,7 +1151,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -1106,7 +1224,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -1169,7 +1287,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 11
     },
     "_enabled": true,
     "tag": 0,
@@ -1362,13 +1480,13 @@
     "_name": "小物件1",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 10
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 23
+        "__id__": 25
       }
     ],
     "_prefab": null,
@@ -1424,7 +1542,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 22
+      "__id__": 24
     },
     "_enabled": true,
     "_materials": [
@@ -1439,13 +1557,13 @@
     "_name": "問號磚塊層",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 10
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 25
+        "__id__": 27
       }
     ],
     "_prefab": null,
@@ -1501,7 +1619,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 24
+      "__id__": 26
     },
     "_enabled": true,
     "_materials": [
@@ -1516,7 +1634,7 @@
     "_name": "DecorationLayer",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 10
     },
     "_children": [],
     "_active": true,
@@ -1574,20 +1692,20 @@
     "_name": "ObjectLayer",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 10
     },
     "_children": [
-      {
-        "__id__": 28
-      },
-      {
-        "__id__": 29
-      },
       {
         "__id__": 30
       },
       {
         "__id__": 31
+      },
+      {
+        "__id__": 32
+      },
+      {
+        "__id__": 33
       }
     ],
     "_active": true,
@@ -1645,7 +1763,7 @@
     "_name": "Bricks",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 27
+      "__id__": 29
     },
     "_children": [],
     "_active": true,
@@ -1703,7 +1821,7 @@
     "_name": "QBlocks",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 27
+      "__id__": 29
     },
     "_children": [],
     "_active": true,
@@ -1761,7 +1879,7 @@
     "_name": "CoinInvicible",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 27
+      "__id__": 29
     },
     "_children": [],
     "_active": true,
@@ -1819,7 +1937,7 @@
     "_name": "Coin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 27
+      "__id__": 29
     },
     "_children": [],
     "_active": true,
@@ -1877,7 +1995,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 8
+      "__id__": 10
     },
     "_enabled": true,
     "_tmxFile": {
@@ -1890,7 +2008,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 4
+      "__id__": 6
     },
     "_enabled": true,
     "_designResolution": {
@@ -1907,7 +2025,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 4
+      "__id__": 6
     },
     "_enabled": true,
     "alignMode": 1,

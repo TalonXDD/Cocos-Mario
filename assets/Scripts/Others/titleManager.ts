@@ -23,29 +23,22 @@ export default class titleManager extends cc.Component {
     // update (dt) {}
 
     playBGM() {
-        if (this.BGM) {
-            cc.audioEngine.playMusic(this.BGM, true);
-        } else {
-            cc.error("Title BGM audio source is not set.");
-        }
+        cc.audioEngine.playMusic(this.BGM, true);
     }
 
-    playSE() {
-        if (this.SE) {
-            cc.audioEngine.playEffect(this.SE, false);
-        } else {
-            cc.error("Title SE audio source is not set.");
-        }
+    playSE(): number {
+        return cc.audioEngine.playEffect(this.SE, false);
     }
 
     onKeyDown(event) {
         // Wait for Enter key to be pressed
         if (event.keyCode == cc.macro.KEY.enter) {
-            this.playSE();
-            this.scheduleOnce(() => {
-                cc.log("Loading stage select scene")
+            let id = this.playSE();
+            cc.audioEngine.setFinishCallback(id, () => {
+                // After the sound effect finishes, load the stage select scene
+                cc.log("Loading stage select scene");
                 cc.director.loadScene("StageSelect");
-            }, 1.5);
+            });
         }
     }
 }
