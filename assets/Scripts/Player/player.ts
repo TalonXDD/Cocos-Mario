@@ -28,6 +28,9 @@ export default class player extends cc.Component {
     private run: boolean = false;
     private jumpable: boolean = false;
 
+    // Other control variables
+    private isSpaceDown: boolean = false;
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
@@ -121,6 +124,11 @@ export default class player extends cc.Component {
             }
             else if (other.node.name == "mushroom") {
 
+            }
+            else if (other.node.name == "starCoin") {
+                this.gameMgr.addScore(4000);
+                this.audioMgr.playStarCoin();
+                other.node.destroy();
             }
         }
         else if (other.node.group == "Block") {
