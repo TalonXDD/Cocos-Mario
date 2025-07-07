@@ -28,10 +28,10 @@ export default class stageSelectManager extends cc.Component {
 
     // update (dt) {}
 
-    playStageSE() {
+    playStageSE(): number {
         if (this.stageSE1 == null || this.stageSE2 == null) {
             // Only one SE available
-            cc.audioEngine.playEffect(this.stageSE0, false);
+            return cc.audioEngine.playEffect(this.stageSE0, false);
         }
         else {
             // Have multiple SEs
@@ -49,9 +49,8 @@ export default class stageSelectManager extends cc.Component {
                     break;
                 default:
                     selectedSE = this.stageSE0;
-                    
-                cc.audioEngine.playEffect(selectedSE, false);
             }
+            return cc.audioEngine.playEffect(selectedSE, false);
         }
     }
 

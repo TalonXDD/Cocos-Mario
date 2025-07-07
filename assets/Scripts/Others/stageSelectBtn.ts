@@ -1,3 +1,5 @@
+import stageSelectManager from "./stageSelectManager";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -5,10 +7,14 @@ export default class stageSelectBtn extends cc.Component {
 
     @property(cc.SceneAsset)
     goStage: cc.SceneAsset = null;
+
+    private stageSelectMgr: stageSelectManager = null;
     
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        this.stageSelectMgr = cc.find("StageSelectManager").getComponent(stageSelectManager);
+    }
 
     start () {
         let btn = new cc.Component.EventHandler();
@@ -25,10 +31,12 @@ export default class stageSelectBtn extends cc.Component {
             cc.error("No stage assigned to go to.");
             return;
         }
-        cc.find("Canvas/StageSelectManager").getComponent("stageSelectManager").playStageSE();
-        this.scheduleOnce(() => {
-            cc.log("Loading stage: " + this.goStage.name);
-            cc.director.loadScene(this.goStage.name);
-        }, 1.5);
+        let id = this.stageSelectMgr.playStageSE();
+        cc.audioEngine.setFinishCallback(id, () => {
+            this.scheduleOnce(() => {
+                cc.log("Loading stage: " + this.goStage.name);
+                cc.director.loadScene(this.goStage.name);
+            }, 1.0);
+        });
     }
 }
