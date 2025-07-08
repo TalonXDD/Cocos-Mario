@@ -1,9 +1,13 @@
+import gameManager from "./gameManager ";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class audioManager extends cc.Component {
 
-    // Game audios
+    /**
+     * Game audios
+     */
     @property(cc.AudioClip) // BGM
     BGM: cc.AudioClip = null;
 
@@ -25,7 +29,9 @@ export default class audioManager extends cc.Component {
     @property(cc.AudioClip)
     resume: cc.AudioClip = null;
 
-    // Player audios
+    /**
+     * Player audios
+     */
     @property(cc.AudioClip)
     jump: cc.AudioClip = null;
 
@@ -38,7 +44,9 @@ export default class audioManager extends cc.Component {
     @property(cc.AudioClip) // BGM
     lifeLoss: cc.AudioClip = null;
 
-    // Enemy audios
+    /**
+     * Enemy audios
+     */
     @property(cc.AudioClip)
     enemyHurt: cc.AudioClip = null;
 
@@ -48,7 +56,9 @@ export default class audioManager extends cc.Component {
     @property(cc.AudioClip)
     turtleHitWall: cc.AudioClip = null;
 
-    // Interaction audios
+    /**
+     * Interaction audios
+     */
     @property(cc.AudioClip)
     coin: cc.AudioClip = null;
 
@@ -69,20 +79,33 @@ export default class audioManager extends cc.Component {
 
     @property(cc.AudioClip)
     getItemAgain: cc.AudioClip = null;
+
+    /**
+     * Private variables
+     */
+    private gameMgr: gameManager = null;
     
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
+        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
+    }
+
+    update (dt) {
 
     }
 
-    // update (dt) {}
-
-    // Game audios
+    /**
+     * Game audios
+     */
     playBGM() {
         cc.audioEngine.playMusic(this.BGM, true);
+    }
+
+    stopBGM() {
+        cc.audioEngine.stopMusic();
     }
 
     playHurryUp()   {
@@ -116,7 +139,9 @@ export default class audioManager extends cc.Component {
         });
     }
 
-    // Player audios
+    /**
+     * Player audios
+     */
     playJump() { 
         cc.audioEngine.playEffect(this.jump, false); 
     }
@@ -133,7 +158,9 @@ export default class audioManager extends cc.Component {
         cc.audioEngine.playMusic(this.lifeLoss, false); 
     }
 
-    // Enemy audios
+    /**
+     * Enemy audios
+     */
     playEnemyHurt() {
         cc.audioEngine.playEffect(this.enemyHurt, false);
     }
@@ -146,7 +173,9 @@ export default class audioManager extends cc.Component {
         cc.audioEngine.playEffect(this.turtleHitWall, false);
     }
 
-    // Interaction audios
+    /**
+     * Interaction audios
+     */
     playCoin() {
         cc.audioEngine.playEffect(this.coin, false);
     }
