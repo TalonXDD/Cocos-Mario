@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "win",
+  "_name": "win_s",
   "_objFlags": 0,
   "_native": "",
   "_duration": 0.35,
@@ -14,19 +14,19 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "221416f8-0b22-4308-a3ba-11cd3b885341"
+              "__uuid__": "dcbfe72f-0488-4984-b29f-9ad731eaa17e"
             }
           },
           {
             "frame": 0.11666666666666667,
             "value": {
-              "__uuid__": "034e1c0a-a8ae-4550-ae23-ff7dc855d002"
+              "__uuid__": "e24a32df-756b-4c1d-ab13-0035a8e1b564"
             }
           },
           {
             "frame": 0.3333333333333333,
             "value": {
-              "__uuid__": "e503aee7-6319-41ec-be95-4423b2de435f"
+              "__uuid__": "a18444e7-a7fe-4f45-be08-344c84dbfa47"
             }
           }
         ]

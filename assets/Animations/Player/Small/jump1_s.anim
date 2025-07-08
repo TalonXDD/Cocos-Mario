@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "jump1",
+  "_name": "jump1_s",
   "_objFlags": 0,
   "_native": "",
   "_duration": 0.06666666666666667,
@@ -14,13 +14,13 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "9c9d3e5d-03a6-4d37-9694-0809820ee03b"
+              "__uuid__": "b8733b30-4806-47fa-9d15-434f423990e7"
             }
           },
           {
             "frame": 0.05,
             "value": {
-              "__uuid__": "116193f8-c0c9-4c62-b503-77c6d07a3895"
+              "__uuid__": "07ae8e6d-dc11-42f0-9b3f-83890fef2961"
             }
           }
         ]
