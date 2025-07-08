@@ -2,7 +2,7 @@
   "start-scene": "8b1f78ba-7427-41a8-8ec5-4d4ae3ecceeb",
   "group-list": [
     "default",
-    "Floor",
+    "Ground",
     "Player",
     "Enemy",
     "Item",

@@ -21,8 +21,8 @@ export default class player extends cc.Component {
     private speedCap: number = 150;
     private runSpeedCap: number = 250; // Speed cap when running
 
-    private jumpSpeed: number = 290;
-    private jumpLength: number = 0.5; // How long the player can hold the jump key to jump higher
+    private jumpSpeed: number = 250;
+    private jumpLength: number = 0.4; // How long the player can hold the jump key to jump higher
     private jumpTime: number = 0; // How long the player has held the jump key
 
     // Player state
@@ -108,7 +108,7 @@ export default class player extends cc.Component {
     }
 
     onBeginContact(contact, self, other) {
-        if (other.node.group == "Floor") {
+        if (other.node.group == "Ground") {
             if (contact.getWorldManifold().normal.y <= -0.4) {
                 this.resetJump();
             }
@@ -151,7 +151,7 @@ export default class player extends cc.Component {
     }
 
     onEndContact(contact, self, other) {
-        if (other.node.group == "Floor" || other.node.group == "Block") {
+        if (other.node.group == "Ground" || other.node.group == "Block") {
             if (contact.getWorldManifold().normal.y <= -0.4) {
                 this.onGround = false;
             }
@@ -166,22 +166,23 @@ export default class player extends cc.Component {
         if (this.isHoldingJump) {
             this.jumpTime += dt;
             if (this.jumpTime < this.jumpLength) {
-                yspeed = this.jumpSpeed - 0.4 * this.jumpSpeed * (this.jumpTime / this.jumpLength); // Adjust jump speed based on hold time
+                yspeed = this.jumpSpeed - 0.15 * this.jumpSpeed * (this.jumpTime / this.jumpLength); // Adjust jump speed based on hold time
                 this.getComponent(cc.RigidBody).gravityScale = 0;
             }
             else {
-                this.getComponent(cc.RigidBody).gravityScale = 4; 
+                this.getComponent(cc.RigidBody).gravityScale = 2; 
             }
         }
         else {
-            this.getComponent(cc.RigidBody).gravityScale = 4; // Reset gravity scale when not holding jump
+            this.getComponent(cc.RigidBody).gravityScale = 2; // Reset gravity scale when not holding jump
         }
 
         // Movement logic
         let isMoving = this.isLeftDown || this.isRightDown;
+        let inAir = this.onGround ? 1 : 0.5;
         if (this.direction == 1) {
             if (this.isRightDown) {
-                let nextx = xspeed + this.acceleration * dt; // Calculate next x speed
+                let nextx = xspeed + inAir * this.acceleration * dt; // Calculate next x speed
                 if (this.run && nextx > this.runSpeedCap) { // Cap speed when running
                     xspeed = this.runSpeedCap;
                 }
@@ -189,13 +190,13 @@ export default class player extends cc.Component {
                     xspeed = this.speedCap + 0.75 * (xspeed - this.speedCap); // Allow some overshoot when walking
                 }
                 else {
-                    xspeed += this.acceleration * dt;
+                    xspeed += inAir * this.acceleration * dt;
                 }
             }
         }
         else if (this.direction == -1) {
             if (this.isLeftDown) {
-                let nextx = xspeed - this.acceleration * dt; // Calculate next x speed
+                let nextx = xspeed - inAir * this.acceleration * dt; // Calculate next x speed
                 if (this.run && nextx < -this.runSpeedCap) {
                     xspeed = -this.runSpeedCap;
                 }
@@ -203,7 +204,7 @@ export default class player extends cc.Component {
                     xspeed = -this.speedCap + 0.75 * (xspeed + this.speedCap); // Allow some overshoot when walking
                 }
                 else {
-                    xspeed -= this.acceleration * dt;
+                    xspeed -= inAir * this.acceleration * dt;
                 }
             }
         }
