@@ -17,6 +17,7 @@ export default class titleManager extends cc.Component {
     }
 
     start () {
+        cc.game.setFrameRate(59);
         this.playBGM();
     }
 

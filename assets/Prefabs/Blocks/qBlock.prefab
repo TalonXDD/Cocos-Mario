@@ -133,6 +133,9 @@
     "_clips": [
       {
         "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
+      },
+      {
+        "__uuid__": "db943260-2fda-4443-a65f-c155f482c397"
       }
     ],
     "playOnLoad": true,
@@ -164,7 +167,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.PhysicsBoxCollider",
+    "__type__": "cc.PhysicsPolygonCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -182,11 +185,48 @@
       "x": 0,
       "y": 0
     },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 24,
-      "height": 24
-    },
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": -12,
+        "y": -11
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -11,
+        "y": -12
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 11,
+        "y": -12
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 12,
+        "y": -11
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 12,
+        "y": 11
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 11,
+        "y": 12
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -11,
+        "y": 12
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -12,
+        "y": 11
+      }
+    ],
     "_id": ""
   },
   {

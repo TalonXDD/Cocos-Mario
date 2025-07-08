@@ -1,5 +1,5 @@
 {
-  "start-scene": "29482b16-f5a1-43d1-b474-06e05f80de14",
+  "start-scene": "8b1f78ba-7427-41a8-8ec5-4d4ae3ecceeb",
   "group-list": [
     "default",
     "Floor",
@@ -9,7 +9,8 @@
     "Block",
     "Pole",
     "Void",
-    "Wall"
+    "Wall",
+    "UI"
   ],
   "collision-matrix": [
     [
@@ -25,7 +26,7 @@
     [
       false,
       true,
-      false,
+      true,
       true,
       true,
       true,
@@ -37,7 +38,7 @@
       false,
       true,
       true,
-      false,
+      true,
       null,
       true,
       null,
@@ -88,6 +89,18 @@
       true,
       true,
       true,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       false,
       false,
@@ -98,10 +111,10 @@
     "3D Physics/Builtin"
   ],
   "preview-port": 7456,
-  "design-resolution-width": 1920,
-  "design-resolution-height": 1080,
-  "fit-width": false,
-  "fit-height": true,
+  "design-resolution-width": 960,
+  "design-resolution-height": 540,
+  "fit-width": true,
+  "fit-height": false,
   "use-project-simulator-setting": false,
   "simulator-orientation": false,
   "use-customize-simulator": true,

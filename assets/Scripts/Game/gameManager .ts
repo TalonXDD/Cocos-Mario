@@ -1,6 +1,8 @@
+import audioManager from "./audioManager";
+
 const {ccclass, property} = cc._decorator;
 
-enum GameState {
+export enum GameState {
     LOADING,
     START,
     PLAYING,
@@ -20,15 +22,23 @@ export default class gameManager extends cc.Component {
     private score: number = 0;
     private coins: number = 0;
     private lives: number = 5;
+
+    // Audio manager reference
+    private audioMgr: audioManager
     
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.setGameState(GameState.LOADING);
+        cc.game.setFrameRate(59);
+        this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
+
+        this.resetGame();
     }
 
     start () {
-        
+        this.scheduleOnce(() => {
+            this.startGame();
+        }, 2); // Start the game after 2 seconds
     }
 
     update (dt) {
@@ -51,7 +61,7 @@ export default class gameManager extends cc.Component {
 
     setTimer(value: number): void {
         this.timer = value;
-        cc.log("Set Timer: " + this.timer);
+        // cc.log("Set Timer: " + this.timer);
     }
 
     getGameState(): GameState {
@@ -93,6 +103,22 @@ export default class gameManager extends cc.Component {
     /**
      * Game control functions
      */
+
+    resetGame(): void {
+        this.audioMgr.stopBGM();
+        this.setGameState(GameState.LOADING);
+        this.setTimer(300);
+        this.setScore(0);
+        this.setCoins(0);
+        this.setLives(5);
+        cc.log("Game Reset!");
+    }
+
+    startGame(): void {
+        this.setGameState(GameState.PLAYING);
+        this.audioMgr.playBGM();
+        cc.log("Game Started!");
+    }
 
     addScore(value: number): void {
         this.score += value;

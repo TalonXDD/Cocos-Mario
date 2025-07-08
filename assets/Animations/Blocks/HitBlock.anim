@@ -1,9 +1,9 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "jump2_s",
+  "_name": "HitBlock",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.06666666666666667,
+  "_duration": 0.016666666666666666,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -14,13 +14,7 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "6b003815-7ed3-4a38-83ee-871bc3cbfc35"
-            }
-          },
-          {
-            "frame": 0.05,
-            "value": {
-              "__uuid__": "9fad2d7d-f7ed-4ed0-bf98-4c225bae1d5c"
+              "__uuid__": "1fa25750-bb0c-476e-ac3f-8baea6353b84"
             }
           }
         ]

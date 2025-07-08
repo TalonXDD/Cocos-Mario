@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>HitBlock.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{24,24}</string>
+                <key>spriteSourceSize</key>
+                <string>{24,24}</string>
+                <key>textureRect</key>
+                <string>{{0,0},{24,24}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>hitBlock.png</string>
+            <key>size</key>
+            <string>{24,24}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:a8b70157d1a2036a2e90f19c56ddbd3f:04d582ca6d948f3bd318c8d28ea531cd:d3e37d1499c7becb4783199832b21c82$</string>
+            <key>textureFileName</key>
+            <string>hitBlock.png</string>
+        </dict>
+    </dict>
+</plist>
