@@ -16,7 +16,6 @@ export default class player extends cc.Component {
     // Animation properties
     private anim: cc.Animation = null;
     private jumpID: number = 1; // 1 for jump1_s, -1 for jump2_s
-    private currnetJumpAnim: string = null;
 
     // Player properties
     private health: number = 1;
@@ -30,8 +29,8 @@ export default class player extends cc.Component {
 
     // Player state
     private direction: number = 1; // 1 for right, -1 for left
-    private run: boolean = false;
     private onGround: boolean = false;
+    private run: boolean = false;
     private isJumping: boolean = false;
     private isHoldingJump: boolean = false;
 
@@ -39,6 +38,7 @@ export default class player extends cc.Component {
     private isSpaceDown: boolean = false;
     private isLeftDown: boolean = false;
     private isRightDown: boolean = false;
+    private isShiftDown: boolean = false;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -87,7 +87,7 @@ export default class player extends cc.Component {
             this.direction = 1;
         }
         else if (event.keyCode == cc.macro.KEY.shift) {
-            this.run = true;
+            this.isShiftDown = true;
         }
     }
 
@@ -109,7 +109,7 @@ export default class player extends cc.Component {
             }
         }
         else if (event.keyCode == cc.macro.KEY.shift) {
-            this.run = false;
+            this.isShiftDown = false;
         }
     }
 
@@ -195,6 +195,7 @@ export default class player extends cc.Component {
         // Movement logic
         let isMoving = this.isLeftDown || this.isRightDown;
         let inAir = this.onGround ? 1 : 0.5;
+        this.run = this.onGround ? this.isShiftDown : this.run;
         if (this.direction == 1) {
             if (this.isRightDown) {
                 let nextx = xspeed + inAir * this.acceleration * dt; // Calculate next x speed
@@ -241,7 +242,6 @@ export default class player extends cc.Component {
         this.isJumping = false;
         this.isHoldingJump = false;
         this.jumpTime = 0; // Reset jump time
-        this.currnetJumpAnim = null;
     }
 
     playAnimation() {
@@ -255,20 +255,17 @@ export default class player extends cc.Component {
         let isMoving = this.isLeftDown || this.isRightDown
         let animName = null;
         if (this.isJumping) {
-            if (!this.currnetJumpAnim) {
-                if (this.run) {
-                    this.currnetJumpAnim = "jumpRun_s";
+            if (this.run) {
+                animName = "jumpRun_s";
+            }
+            else {
+                if (this.jumpID > 0) {
+                    animName = "jump1_s";
                 }
                 else {
-                    if (this.jumpID > 0) {
-                        this.currnetJumpAnim = "jump1_s";
-                    }
-                    else {
-                        this.currnetJumpAnim = "jump2_s";
-                    }
+                    animName = "jump2_s";
                 }
             }
-            animName = this.currnetJumpAnim
         }
         else if (isMoving) {
             if (this.run) {
