@@ -13,15 +13,18 @@ export default class player extends cc.Component {
     @property(audioManager)
     audioMgr: audioManager = null;
 
+    // Animation properties
     private anim: cc.Animation = null;
+    private jumpID: number = 1; // 1 for jump1_s, -1 for jump2_s
+    private currnetJumpAnim: string = null;
 
     // Player properties
     private health: number = 1;
-    private acceleration:number = 500;
-    private speedCap: number = 150;
-    private runSpeedCap: number = 250; // Speed cap when running
+    private acceleration:number = 400;
+    private speedCap: number = 120;
+    private runSpeedCap: number = 220; // Speed cap when running
 
-    private jumpSpeed: number = 250;
+    private jumpSpeed: number = 240;
     private jumpLength: number = 0.4; // How long the player can hold the jump key to jump higher
     private jumpTime: number = 0; // How long the player has held the jump key
 
@@ -29,6 +32,7 @@ export default class player extends cc.Component {
     private direction: number = 1; // 1 for right, -1 for left
     private run: boolean = false;
     private onGround: boolean = false;
+    private isJumping: boolean = false;
     private isHoldingJump: boolean = false;
 
     // Other control variables
@@ -42,7 +46,7 @@ export default class player extends cc.Component {
         cc.director.getPhysicsManager().enabled = true;
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-
+        this.anim = this.getComponent(cc.Animation);
     }
 
     start () {
@@ -68,8 +72,10 @@ export default class player extends cc.Component {
     onKeyDown(event) {
         if (event.keyCode == cc.macro.KEY.space) {
             this.isSpaceDown = true;
-            if (this.onGround) {
+            if (this.onGround && !this.isJumping) {
+                this.isJumping = true;
                 this.isHoldingJump = true;
+                this.jumpID *= -1;
             }
         }
         else if (event.keyCode == cc.macro.KEY.a || event.keyCode == cc.macro.KEY.left) {
@@ -150,6 +156,14 @@ export default class player extends cc.Component {
         }
     }
 
+    // onPreSolve(contact, self, other) {
+    //     if (other.node.group == "Ground" || other.node.group == "Block") {
+    //         if (contact.getWorldManifold().normal.y < -0.4) {
+    //             this.onGround = true;
+    //         }
+    //     }
+    // }
+
     onEndContact(contact, self, other) {
         if (other.node.group == "Ground" || other.node.group == "Block") {
             if (contact.getWorldManifold().normal.y <= -0.4) {
@@ -166,16 +180,17 @@ export default class player extends cc.Component {
         if (this.isHoldingJump) {
             this.jumpTime += dt;
             if (this.jumpTime < this.jumpLength) {
-                yspeed = this.jumpSpeed - 0.15 * this.jumpSpeed * (this.jumpTime / this.jumpLength); // Adjust jump speed based on hold time
-                this.getComponent(cc.RigidBody).gravityScale = 0;
+                yspeed = this.jumpSpeed // - this.jumpSpeed * (this.jumpTime / this.jumpLength); Adjust jump speed based on hold time
+                // this.getComponent(cc.RigidBody).gravityScale = 0;
             }
-            else {
-                this.getComponent(cc.RigidBody).gravityScale = 2; 
-            }
+            // else {
+            //     cc.log("times up");
+            //     this.getComponent(cc.RigidBody).gravityScale = 2; 
+            // }
         }
-        else {
-            this.getComponent(cc.RigidBody).gravityScale = 2; // Reset gravity scale when not holding jump
-        }
+        // else {
+        //     this.getComponent(cc.RigidBody).gravityScale = 2; // Reset gravity scale when not holding jump
+        // }
 
         // Movement logic
         let isMoving = this.isLeftDown || this.isRightDown;
@@ -223,8 +238,10 @@ export default class player extends cc.Component {
 
     resetJump() {
         this.onGround = true;
+        this.isJumping = false;
         this.isHoldingJump = false;
         this.jumpTime = 0; // Reset jump time
+        this.currnetJumpAnim = null;
     }
 
     playAnimation() {
@@ -233,6 +250,45 @@ export default class player extends cc.Component {
         }
         else if (this.direction == -1) {
             this.node.scaleX = -Math.abs(this.node.scaleX);
+        }
+
+        let isMoving = this.isLeftDown || this.isRightDown
+        let animName = null;
+        if (this.isJumping) {
+            if (!this.currnetJumpAnim) {
+                if (this.run) {
+                    this.currnetJumpAnim = "jumpRun_s";
+                }
+                else {
+                    if (this.jumpID > 0) {
+                        this.currnetJumpAnim = "jump1_s";
+                    }
+                    else {
+                        this.currnetJumpAnim = "jump2_s";
+                    }
+                }
+            }
+            animName = this.currnetJumpAnim
+        }
+        else if (isMoving) {
+            if (this.run) {
+                if (this.getComponent(cc.RigidBody).linearVelocity.x * this.direction < 0) {
+                    animName = "changeDir_s";
+                }
+                else {
+                    animName = "run_s";
+                }
+            }
+            else {
+                animName = "walk_s";
+            }
+        }
+        else {
+            animName = "idle_s";
+        }
+
+        if (!this.anim.getAnimationState(animName).isPlaying) {
+            this.anim.play(animName);
         }
     }
 }

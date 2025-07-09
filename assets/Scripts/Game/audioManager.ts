@@ -79,23 +79,16 @@ export default class audioManager extends cc.Component {
 
     @property(cc.AudioClip)
     getItemAgain: cc.AudioClip = null;
-
-    /**
-     * Private variables
-     */
-    private gameMgr: gameManager = null;
     
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
-    }
-
-    update (dt) {
 
     }
+
+    // update (dt) {}
 
     /**
      * Game audios

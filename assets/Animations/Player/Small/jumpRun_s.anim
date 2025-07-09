@@ -3,22 +3,16 @@
   "_name": "jumpRun_s",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.06666666666666667,
+  "_duration": 0.016666666666666666,
   "sample": 60,
   "speed": 1,
-  "wrapMode": 1,
+  "wrapMode": 2,
   "curveData": {
     "comps": {
       "cc.Sprite": {
         "spriteFrame": [
           {
             "frame": 0,
-            "value": {
-              "__uuid__": "75414b55-301a-4238-8c87-33ebc3820abe"
-            }
-          },
-          {
-            "frame": 0.05,
             "value": {
               "__uuid__": "b59967b1-37ff-4938-9515-2b008f556413"
             }

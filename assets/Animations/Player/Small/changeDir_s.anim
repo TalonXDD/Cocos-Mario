@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "jump2_s",
+  "_name": "changeDir_s",
   "_objFlags": 0,
   "_native": "",
   "_duration": 0.016666666666666666,
@@ -14,7 +14,7 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "42248c48-9de9-40e3-88f3-c4771f6fd3a1"
+              "__uuid__": "933e914b-cb2b-472d-8749-023e5360c606"
             }
           }
         ]
