@@ -13,18 +13,18 @@ export default class player extends cc.Component {
     @property(audioManager)
     audioMgr: audioManager = null;
 
-    // Animation properties
+    // Player components
+    private rb: cc.RigidBody = null;
     private anim: cc.Animation = null;
-    private jumpID: number = 1; // 1 for jump1_s, -1 for jump2_s
 
     // Player properties
     private health: number = 1;
-    private acceleration:number = 400;
+    private acceleration:number = 800;
     private speedCap: number = 120;
     private runSpeedCap: number = 220; // Speed cap when running
 
-    private jumpSpeed: number = 240;
-    private jumpLength: number = 0.4; // How long the player can hold the jump key to jump higher
+    private jumpSpeed: number = 330;
+    private jumpLength: number = 0.3; // How long the player can hold the jump key to jump higher
     private jumpTime: number = 0; // How long the player has held the jump key
 
     // Player state
@@ -34,11 +34,17 @@ export default class player extends cc.Component {
     private isJumping: boolean = false;
     private isHoldingJump: boolean = false;
 
+    // Animation properties
+    private jumpID: number = 1; // 1 for jump1_s, -1 for jump2_s
+
     // Other control variables
     private isSpaceDown: boolean = false;
     private isLeftDown: boolean = false;
     private isRightDown: boolean = false;
     private isShiftDown: boolean = false;
+
+    // Testing variables
+    private contact: any = null; // Placeholder for contact object
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -55,6 +61,7 @@ export default class player extends cc.Component {
             return;
         }
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
+        this.rb = this.getComponent(cc.RigidBody);
         this.anim = this.getComponent(cc.Animation);
 
         this.direction = 1;
@@ -88,6 +95,10 @@ export default class player extends cc.Component {
         }
         else if (event.keyCode == cc.macro.KEY.shift) {
             this.isShiftDown = true;
+        }
+        else if (event.keyCode == cc.macro.KEY.p) {
+            cc.log("Contact: ", this.contact);
+            cc.log("GetWorldManifold", this.contact.getWorldManifold());
         }
     }
 
@@ -154,6 +165,8 @@ export default class player extends cc.Component {
         else if (other.node.group == "Void") {
             this.gameMgr.playerDied();
         }
+        
+        this.contact = contact; // Store contact for later use
     }
 
     // onPreSolve(contact, self, other) {
@@ -173,37 +186,29 @@ export default class player extends cc.Component {
     }
 
     updateMovement(dt) {
-        let xspeed = this.getComponent(cc.RigidBody).linearVelocity.x;
-        let yspeed = this.getComponent(cc.RigidBody).linearVelocity.y;
+        let xspeed = this.rb.linearVelocity.x;
+        let yspeed = this.rb.linearVelocity.y;
 
         // Jump logic
         if (this.isHoldingJump) {
             this.jumpTime += dt;
             if (this.jumpTime < this.jumpLength) {
-                yspeed = this.jumpSpeed // - this.jumpSpeed * (this.jumpTime / this.jumpLength); Adjust jump speed based on hold time
-                // this.getComponent(cc.RigidBody).gravityScale = 0;
+                yspeed = this.jumpSpeed
             }
-            // else {
-            //     cc.log("times up");
-            //     this.getComponent(cc.RigidBody).gravityScale = 2; 
-            // }
         }
-        // else {
-        //     this.getComponent(cc.RigidBody).gravityScale = 2; // Reset gravity scale when not holding jump
-        // }
 
         // Movement logic
-        let isMoving = this.isLeftDown || this.isRightDown;
-        let inAir = this.onGround ? 1 : 0.5;
-        this.run = this.onGround ? this.isShiftDown : this.run;
+        let isMoving = this.isLeftDown || this.isRightDown; 
+        let inAir = this.onGround ? 1 : 0.5; // Apply less acceleration when in air
+        this.run = this.onGround ? this.isShiftDown : this.run; // Only change run state when on ground
         if (this.direction == 1) {
             if (this.isRightDown) {
                 let nextx = xspeed + inAir * this.acceleration * dt; // Calculate next x speed
-                if (this.run && nextx > this.runSpeedCap) { // Cap speed when running
-                    xspeed = this.runSpeedCap;
+                if (this.run && nextx > this.runSpeedCap) {
+                    xspeed = this.runSpeedCap; // Cap speed when running
                 }
                 else if (!this.run && nextx > this.speedCap) {
-                    xspeed = this.speedCap + 0.75 * (xspeed - this.speedCap); // Allow some overshoot when walking
+                    xspeed = this.speedCap + 0.75 * (xspeed - this.speedCap); // Gradually reduce speed to walking speed
                 }
                 else {
                     xspeed += inAir * this.acceleration * dt;
@@ -214,10 +219,10 @@ export default class player extends cc.Component {
             if (this.isLeftDown) {
                 let nextx = xspeed - inAir * this.acceleration * dt; // Calculate next x speed
                 if (this.run && nextx < -this.runSpeedCap) {
-                    xspeed = -this.runSpeedCap;
+                    xspeed = -this.runSpeedCap; // Cap speed when running
                 }
                 else if (!this.run && nextx < -this.speedCap) {
-                    xspeed = -this.speedCap + 0.75 * (xspeed + this.speedCap); // Allow some overshoot when walking
+                    xspeed = -this.speedCap + 0.75 * (xspeed + this.speedCap); // Gradually reduce speed to walking speed
                 }
                 else {
                     xspeed -= inAir * this.acceleration * dt;
@@ -233,8 +238,8 @@ export default class player extends cc.Component {
                 if (xspeed > 0) xspeed = 0;
             }
         }
-        this.getComponent(cc.RigidBody).linearVelocity = cc.v2(xspeed, yspeed);
-        cc.log("Player Velocity: " + this.getComponent(cc.RigidBody).linearVelocity);
+        this.rb.linearVelocity = cc.v2(xspeed, yspeed);
+        cc.log("Player Velocity: " + this.rb.linearVelocity);
     }
 
     resetJump() {
@@ -242,6 +247,7 @@ export default class player extends cc.Component {
         this.isJumping = false;
         this.isHoldingJump = false;
         this.jumpTime = 0; // Reset jump time
+        this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
     }
 
     playAnimation() {
@@ -269,7 +275,7 @@ export default class player extends cc.Component {
         }
         else if (isMoving) {
             if (this.run) {
-                if (this.getComponent(cc.RigidBody).linearVelocity.x * this.direction < 0) {
+                if (this.rb.linearVelocity.x * this.direction < 0) {
                     animName = "changeDir_s";
                 }
                 else {
