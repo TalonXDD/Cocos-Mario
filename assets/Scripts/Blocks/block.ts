@@ -1,3 +1,4 @@
+import gameManager from "../Game/gameManager";
 import audioManager from "../Game/audioManager";
 
 const {ccclass, property} = cc._decorator;
@@ -8,6 +9,7 @@ export default class block extends cc.Component {
     @property()
     remainHit: number = 1;
 
+    protected gameMgr: gameManager = null;
     protected audioMgr: audioManager = null;
     protected anim: cc.Animation = null;
     
@@ -17,6 +19,7 @@ export default class block extends cc.Component {
 
     start () {
         this.anim = this.getComponent(cc.Animation);
+        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
     }
 

@@ -1,5 +1,5 @@
 import audioManager from "../Game/audioManager";
-import gameManager, {GameState} from "../Game/gameManager ";
+import gameManager, {GameState} from "../Game/gameManager";
 
 const {ccclass, property} = cc._decorator;
 

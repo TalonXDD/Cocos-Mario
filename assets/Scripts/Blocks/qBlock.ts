@@ -20,6 +20,7 @@ export default class qBlock extends block {
     }
 
     start () {
+        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
 
         this.remainHit = 1; // Reset hit count for qBlock
@@ -34,7 +35,7 @@ export default class qBlock extends block {
             if (this.remainHit > 0) {
                 switch (this.blockType) {
                     case qBlockType.COIN:
-                        this.audioMgr.playCoin();
+                        this.gameMgr.collectCoin();
                         break;
                     case qBlockType.POWERUP:
                         this.audioMgr.playItemAppear();

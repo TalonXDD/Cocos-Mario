@@ -1,5 +1,5 @@
 import audioManager from "../Game/audioManager";
-import gameManager, {GameState} from "../Game/gameManager ";
+import gameManager, {GameState} from "../Game/gameManager";
 
 
 const {ccclass, property} = cc._decorator;
@@ -7,11 +7,9 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class player extends cc.Component {
 
-    @property(gameManager)
-    gameMgr: gameManager = null;
-
-    @property(audioManager)
-    audioMgr: audioManager = null;
+    // Game manager and audio manager references
+    private gameMgr: gameManager = null;
+    private audioMgr: audioManager = null;
 
     // Player components
     private rb: cc.RigidBody = null;
@@ -20,8 +18,8 @@ export default class player extends cc.Component {
     // Player properties
     private health: number = 1;
     private acceleration:number = 550;
-    private speedCap: number = 120;
-    private runSpeedCap: number = 220; // Speed cap when running
+    private speedCap: number = 125;
+    private runSpeedCap: number = 250; // Speed cap when running
 
     private jumpSpeed: number = 330;
     private jumpLength: number = 0.3; // How long the player can hold the jump key to jump higher
@@ -53,17 +51,13 @@ export default class player extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         this.anim = this.getComponent(cc.Animation);
+        this.rb = this.getComponent(cc.RigidBody);
+        this.anim = this.getComponent(cc.Animation);
     }
 
     start () {
-        if (!this.gameMgr) {
-            cc.error("GameManager component not found!");
-            return;
-        }
+        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
-        this.rb = this.getComponent(cc.RigidBody);
-        this.anim = this.getComponent(cc.Animation);
-
         this.direction = 1;
         this.onGround = false;
         this.run = false;
@@ -128,15 +122,16 @@ export default class player extends cc.Component {
     onBeginContact(contact, self, other) {
         let normalY = contact.getWorldManifold().normal.y;
 
-        // Player is hitting head
-        if (normalY == 1) { 
-            this.isHoldingJump = false;
-            this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
-        }
-
-        if (other.node.group == "Ground") {
-            if (normalY <= -0.4) {
+        if (other.node.group == "Ground") { // Player is on the ground
+            if (other.node.name == "Orange" && normalY != -1) { // One-Way platform
+                contact.disabled = true; // Disable contact to prevent further collisions
+            }
+            else if (normalY == -1) {
                 this.resetJump();
+            }
+            else if (normalY == 1) { // Player hit head
+                this.isHoldingJump = false; // Reset jump hold when hitting the ground from above
+                this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
             }
         }
         else if (other.node.group == "Enemy") {
@@ -149,10 +144,8 @@ export default class player extends cc.Component {
         }
         else if (other.node.group == "Item") {
             if (other.node.name == "coin") {
-                this.gameMgr.addScore(100);
-                this.gameMgr.addCoins(1);
-                this.audioMgr.playCoin();
-                other.node.destroy();
+                this.gameMgr.collectCoin();
+                other.getComponent("coin").createCollectEffect();
             }
             else if (other.node.name == "mushroom") {
 
@@ -163,9 +156,13 @@ export default class player extends cc.Component {
                 other.node.destroy();
             }
         }
-        else if (other.node.group == "Block") {
-            if (normalY < -0.4) {
+        else if (other.node.group == "Block") { // Player is standing on a block
+            if (normalY == -1) {
                 this.resetJump();
+            }
+            else if (normalY == 1) { // Player hit head
+                this.isHoldingJump = false; // Reset jump hold when hitting the block from above
+                this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
             }
         }
         else if (other.node.group == "Pole") {
@@ -181,7 +178,7 @@ export default class player extends cc.Component {
     onPreSolve(contact, self, other) {
         let normalY = contact.getWorldManifold().normal.y;
         if (other.node.group == "Ground" || other.node.group == "Block") {
-            if (normalY < -0.4) {
+            if (normalY == -1) {
                 this.onGround = true;
             }
         }
@@ -190,7 +187,7 @@ export default class player extends cc.Component {
     onEndContact(contact, self, other) {
         let normalY = contact.getWorldManifold().normal.y;
         if (other.node.group == "Ground" || other.node.group == "Block") {
-            if (normalY <= -0.4) {
+            if (normalY == -1) {
                 this.onGround = false;
             }
         }

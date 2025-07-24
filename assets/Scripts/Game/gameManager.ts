@@ -30,12 +30,12 @@ export default class gameManager extends cc.Component {
 
     onLoad () {
         cc.game.setFrameRate(59);
-        this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
-
-        this.resetGame();
     }
 
     start () {
+        this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
+
+        this.resetGame();
 
         this.scheduleOnce(() => {
             this.startGame();
@@ -144,5 +144,11 @@ export default class gameManager extends cc.Component {
     playerWon(): void {
         this.setGameState(GameState.WIN);
         cc.log("Player Won! Congratulations!");
+    }
+
+    collectCoin(): void {
+        this.addCoins(1);
+        this.addScore(200);
+        this.audioMgr.playCoin();
     }
 }

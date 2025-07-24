@@ -197,7 +197,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "changeTime": 0.5,
+    "changeTime": 0.3,
     "coinPrefab": {
       "__uuid__": "bc84bc2d-76c3-4b30-8030-6799d23f910a"
     },

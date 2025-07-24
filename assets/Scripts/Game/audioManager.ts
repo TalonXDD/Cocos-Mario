@@ -1,5 +1,3 @@
-import gameManager from "./gameManager ";
-
 const {ccclass, property} = cc._decorator;
 
 @ccclass

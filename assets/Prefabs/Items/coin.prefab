@@ -193,6 +193,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "collectEffectPrefab": {
+      "__uuid__": "3fec741a-a827-479e-912e-ed7a6dfb88de"
+    },
     "_id": ""
   },
   {

@@ -24,6 +24,7 @@ export default class brick extends block {
     }
 
     start () {
+        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
 
         this.remainHit = 1; // Reset hit count for brick
@@ -50,7 +51,7 @@ export default class brick extends block {
                         break;
                     case brickType.COIN:
                         this.moveAction();
-                        this.audioMgr.playCoin();
+                        this.gameMgr.collectCoin();
                         break;
                     case brickType.POWERUP:
                         this.moveAction();

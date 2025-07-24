@@ -1,7 +1,13 @@
+import audioManager from "../Game/audioManager";
+import gameManager from "../Game/gameManager";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class item extends cc.Component {
+
+    protected gameMgr: gameManager = null;
+    protected audioMgr: audioManager = null;
 
     // LIFE-CYCLE CALLBACKS:
 
