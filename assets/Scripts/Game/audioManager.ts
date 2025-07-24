@@ -53,9 +53,6 @@ export default class audioManager extends cc.Component {
     @property(cc.AudioClip)
     turtleKick: cc.AudioClip = null;
 
-    @property(cc.AudioClip)
-    turtleHitWall: cc.AudioClip = null;
-
     /**
      * Interaction audios
      */
@@ -69,7 +66,7 @@ export default class audioManager extends cc.Component {
     hardBrick: cc.AudioClip = null;
 
     @property(cc.AudioClip)
-    item: cc.AudioClip = null;
+    itemAppear: cc.AudioClip = null;
 
     @property(cc.AudioClip)
     starCoin: cc.AudioClip = null;
@@ -162,10 +159,6 @@ export default class audioManager extends cc.Component {
         cc.audioEngine.playEffect(this.turtleKick, false);
     }
 
-    playTurtleHitWall() {
-        cc.audioEngine.playEffect(this.turtleHitWall, false);
-    }
-
     /**
      * Interaction audios
      */
@@ -181,8 +174,8 @@ export default class audioManager extends cc.Component {
         cc.audioEngine.playEffect(this.hardBrick, false);
     }
 
-    playItem() {
-        cc.audioEngine.playEffect(this.item, false);
+    playItemAppear() {
+        cc.audioEngine.playEffect(this.itemAppear, false);
     }
 
     playStarCoin() {

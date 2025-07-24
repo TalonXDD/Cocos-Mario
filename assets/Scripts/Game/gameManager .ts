@@ -36,6 +36,7 @@ export default class gameManager extends cc.Component {
     }
 
     start () {
+
         this.scheduleOnce(() => {
             this.startGame();
         }, 2); // Start the game after 2 seconds

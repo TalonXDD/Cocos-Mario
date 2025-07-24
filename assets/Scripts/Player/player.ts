@@ -19,7 +19,7 @@ export default class player extends cc.Component {
 
     // Player properties
     private health: number = 1;
-    private acceleration:number = 800;
+    private acceleration:number = 550;
     private speedCap: number = 120;
     private runSpeedCap: number = 220; // Speed cap when running
 
@@ -97,6 +97,7 @@ export default class player extends cc.Component {
             this.isShiftDown = true;
         }
         else if (event.keyCode == cc.macro.KEY.p) {
+            cc.log("Velocity: ", this.rb.linearVelocity);
             cc.log("Contact: ", this.contact);
             cc.log("GetWorldManifold", this.contact.getWorldManifold());
         }
@@ -125,13 +126,21 @@ export default class player extends cc.Component {
     }
 
     onBeginContact(contact, self, other) {
+        let normalY = contact.getWorldManifold().normal.y;
+
+        // Player is hitting head
+        if (normalY == 1) { 
+            this.isHoldingJump = false;
+            this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
+        }
+
         if (other.node.group == "Ground") {
-            if (contact.getWorldManifold().normal.y <= -0.4) {
+            if (normalY <= -0.4) {
                 this.resetJump();
             }
         }
         else if (other.node.group == "Enemy") {
-            if (contact.getWorldManifold().normal.y != -1) {
+            if (normalY != -1) {
                 this.health--;
                 if (this.health <= 0) {
                     this.gameMgr.playerDied();
@@ -155,7 +164,7 @@ export default class player extends cc.Component {
             }
         }
         else if (other.node.group == "Block") {
-            if (contact.getWorldManifold().normal.y < -0.4) {
+            if (normalY < -0.4) {
                 this.resetJump();
             }
         }
@@ -165,21 +174,23 @@ export default class player extends cc.Component {
         else if (other.node.group == "Void") {
             this.gameMgr.playerDied();
         }
-        
+
         this.contact = contact; // Store contact for later use
     }
 
-    // onPreSolve(contact, self, other) {
-    //     if (other.node.group == "Ground" || other.node.group == "Block") {
-    //         if (contact.getWorldManifold().normal.y < -0.4) {
-    //             this.onGround = true;
-    //         }
-    //     }
-    // }
+    onPreSolve(contact, self, other) {
+        let normalY = contact.getWorldManifold().normal.y;
+        if (other.node.group == "Ground" || other.node.group == "Block") {
+            if (normalY < -0.4) {
+                this.onGround = true;
+            }
+        }
+    }
 
     onEndContact(contact, self, other) {
+        let normalY = contact.getWorldManifold().normal.y;
         if (other.node.group == "Ground" || other.node.group == "Block") {
-            if (contact.getWorldManifold().normal.y <= -0.4) {
+            if (normalY <= -0.4) {
                 this.onGround = false;
             }
         }
@@ -239,7 +250,6 @@ export default class player extends cc.Component {
             }
         }
         this.rb.linearVelocity = cc.v2(xspeed, yspeed);
-        cc.log("Player Velocity: " + this.rb.linearVelocity);
     }
 
     resetJump() {

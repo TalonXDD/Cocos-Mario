@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "brick",
+    "_name": "qBlockItem",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -101,7 +101,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "3cde66b9-7faf-4777-afa2-6a521ce2dcaf"
+      "__uuid__": "99212e47-97fc-401e-bd35-9bfa4a22d610"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -115,7 +115,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "cd0b6818-1fde-443e-b14e-1c9bec709be0"
+      "__uuid__": "c4078157-5070-449c-934a-a6ca408e8f82"
     },
     "_id": ""
   },
@@ -128,11 +128,11 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "cacd1798-2b73-4931-aa8f-d3f4fdb4d647"
+      "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
     },
     "_clips": [
       {
-        "__uuid__": "cacd1798-2b73-4931-aa8f-d3f4fdb4d647"
+        "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
       },
       {
         "__uuid__": "db943260-2fda-4443-a65f-c155f482c397"
@@ -220,7 +220,7 @@
     "_id": ""
   },
   {
-    "__type__": "2e9b1+aItZDrZX9P98oN3t9",
+    "__type__": "fbcc7tJoiRMao/PO4poO28j",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -228,10 +228,7 @@
     },
     "_enabled": true,
     "remainHit": 1,
-    "brickType": 0,
-    "breakPrefab": {
-      "__uuid__": "a4f5d4e7-83ce-408a-8a9f-8a600cd74976"
-    },
+    "blockType": 1,
     "_id": ""
   },
   {

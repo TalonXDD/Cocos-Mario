@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "brick",
+    "_name": "brickItem",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -228,7 +228,7 @@
     },
     "_enabled": true,
     "remainHit": 1,
-    "brickType": 0,
+    "brickType": 2,
     "breakPrefab": {
       "__uuid__": "a4f5d4e7-83ce-408a-8a9f-8a600cd74976"
     },
