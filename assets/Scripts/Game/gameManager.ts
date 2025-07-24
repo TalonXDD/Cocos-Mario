@@ -175,7 +175,7 @@ export default class gameManager extends cc.Component {
 
     collectCoin(): void {
         this.addCoins(1);
-        this.addScore(200);
+        this.addScore(100);
         this.audioMgr.playCoin();
     }
 }

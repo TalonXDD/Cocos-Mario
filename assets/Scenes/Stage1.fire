@@ -3073,6 +3073,8 @@
     },
     "_enabled": true,
     "remainHit": 1,
+    "coinPrefab": null,
+    "itemPrefab": null,
     "brickType": 0,
     "breakPrefab": {
       "__uuid__": "a4f5d4e7-83ce-408a-8a9f-8a600cd74976"
@@ -3309,6 +3311,8 @@
     },
     "_enabled": true,
     "remainHit": 1,
+    "coinPrefab": null,
+    "itemPrefab": null,
     "brickType": 1,
     "breakPrefab": {
       "__uuid__": "a4f5d4e7-83ce-408a-8a9f-8a600cd74976"
@@ -3545,6 +3549,8 @@
     },
     "_enabled": true,
     "remainHit": 1,
+    "coinPrefab": null,
+    "itemPrefab": null,
     "brickType": 2,
     "breakPrefab": {
       "__uuid__": "a4f5d4e7-83ce-408a-8a9f-8a600cd74976"
@@ -3846,7 +3852,9 @@
     },
     "_enabled": true,
     "remainHit": 1,
-    "blockType": 0,
+    "coinPrefab": null,
+    "itemPrefab": null,
+    "qBlockType": 0,
     "_id": "6fsn/FxV5Kc7GduzuUagrU"
   },
   {
@@ -4079,7 +4087,9 @@
     },
     "_enabled": true,
     "remainHit": 1,
-    "blockType": 1,
+    "coinPrefab": null,
+    "itemPrefab": null,
+    "qBlockType": 0,
     "_id": "79+YMI+U1JG4XunRfexrn1"
   },
   {

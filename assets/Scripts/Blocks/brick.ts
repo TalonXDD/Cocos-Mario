@@ -39,13 +39,7 @@ export default class brick extends block {
             if (this.remainHit > 0) {
                 switch (this.brickType) {
                     case brickType.EMPTY:
-                        let breakEffect = cc.instantiate(this.breakPrefab);
-                        breakEffect.parent = this.node.parent;
-                        breakEffect.setPosition(this.node.position);
-                        cc.tween(breakEffect)
-                            .delay(3)
-                            .call(() => breakEffect.destroy())
-                            .start();
+                        this.createBreakEffect();
                         this.audioMgr.playBrick();
                         this.node.destroy();
                         break;
@@ -64,5 +58,15 @@ export default class brick extends block {
                 this.playAnimation("HitBlock");
             }
         }
+    }
+
+    createBreakEffect() {
+        let breakEffect = cc.instantiate(this.breakPrefab);
+        breakEffect.parent = this.node.parent;
+        breakEffect.setPosition(this.node.position);
+        cc.tween(breakEffect)
+            .delay(3)
+            .call(() => breakEffect.destroy())
+            .start();
     }
 }

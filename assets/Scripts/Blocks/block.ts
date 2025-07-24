@@ -9,6 +9,12 @@ export default class block extends cc.Component {
     @property()
     remainHit: number = 1;
 
+    @property(cc.Prefab)
+    coinPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    itemPrefab: cc.Prefab = null;
+
     protected gameMgr: gameManager = null;
     protected audioMgr: audioManager = null;
     protected anim: cc.Animation = null;
@@ -44,5 +50,24 @@ export default class block extends cc.Component {
             .by(0.1, { y: 12 })
             .by(0.1, { y: -12 })
             .start();
+    }
+
+    protected createCoin() {
+        let coin = cc.instantiate(this.coinPrefab);
+        coin.parent = this.node.parent;
+        coin.setPosition(this.node.position);
+        cc.tween(coin)
+            .by(0.15, {y: 60})
+            .delay(0.15)
+            .call(() => {
+                coin.destroy();
+            });
+    }
+
+    protected createItem() {
+        let item = cc.instantiate(this.itemPrefab);
+        item.parent = this.node.parent;
+        item.setPosition(this.node.position);
+        
     }
 }

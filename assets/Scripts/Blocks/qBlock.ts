@@ -11,7 +11,7 @@ enum qBlockType {
 export default class qBlock extends block {
 
     @property({type: cc.Enum(qBlockType)})
-    blockType: qBlockType = qBlockType.COIN;
+    qBlockType: qBlockType = qBlockType.COIN;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -33,7 +33,7 @@ export default class qBlock extends block {
         if ((other.node.group == "Player" && normalY == -1) || false) {
             this.audioMgr.playHardBrick();
             if (this.remainHit > 0) {
-                switch (this.blockType) {
+                switch (this.qBlockType) {
                     case qBlockType.COIN:
                         this.gameMgr.collectCoin();
                         break;
