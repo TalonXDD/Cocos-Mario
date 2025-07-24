@@ -40,7 +40,7 @@ export default class audioManager extends cc.Component {
     changeSmall: cc.AudioClip = null;
 
     @property(cc.AudioClip) // BGM
-    lifeLoss: cc.AudioClip = null;
+    livesLoss: cc.AudioClip = null;
 
     /**
      * Enemy audios
@@ -143,7 +143,7 @@ export default class audioManager extends cc.Component {
     }
 
     playDead() { 
-        cc.audioEngine.playMusic(this.lifeLoss, false); 
+        cc.audioEngine.playMusic(this.livesLoss, false); 
     }
 
     /**

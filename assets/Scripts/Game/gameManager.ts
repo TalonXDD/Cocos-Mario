@@ -1,4 +1,5 @@
 import audioManager from "./audioManager";
+import gameData from "./gameData";
 
 const {ccclass, property} = cc._decorator;
 
@@ -13,18 +14,20 @@ export enum GameState {
 
 @ccclass
 export default class gameManager extends cc.Component {
+
+    // Audio manager reference
+    private audioMgr: audioManager
     
     // Game properties
-    private timer: number = 300;
+    private timer: number = 200;
+    private warning: boolean = false;
     private gameState: GameState = GameState.LOADING;
 
     // Player properties
     private score: number = 0;
     private coins: number = 0;
     private lives: number = 5;
-
-    // Audio manager reference
-    private audioMgr: audioManager
+    private playerHealth: number = 1;
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -45,11 +48,33 @@ export default class gameManager extends cc.Component {
     update (dt) {
         if (this.getGameState() == GameState.PLAYING) {
             this.setTimer(this.getTimer() - dt);
+            if (this.getTimer() <= 100 && !this.warning) {
+                this.warning = true;
+                this.audioMgr.playHurryUp();
+                cc.log("Warning: Time is running out!");
+            }
             if (this.getTimer() <= 0) {
                 this.setGameState(GameState.GAME_OVER);
                 cc.log("Game Over! Time's up!");
             }
         }
+    }
+
+    /**
+     * Save and Load functions
+     */
+    SaveGameData() {
+        gameData.score = this.getScore();
+        gameData.coins = this.getCoins();
+        gameData.lives = this.getLives();
+        gameData.playerHealth = this.getPlayerHealth();
+    }
+
+    LoadGameData() {
+        this.setScore(gameData.score);
+        this.setCoins(gameData.coins);
+        this.setLives(gameData.lives);
+        // this.setPlayerHealth(gameData.playerHealth);
     }
 
     /**
@@ -101,6 +126,10 @@ export default class gameManager extends cc.Component {
         cc.log("Set Lives: " + this.lives);
     }
 
+    getPlayerHealth(): number {
+        return this.playerHealth;
+    }
+
     /**
      * Game control functions
      */
@@ -108,10 +137,8 @@ export default class gameManager extends cc.Component {
     resetGame(): void {
         this.audioMgr.stopBGM();
         this.setGameState(GameState.LOADING);
-        this.setTimer(300);
-        this.setScore(0);
-        this.setCoins(0);
-        this.setLives(5);
+        this.setTimer(200);
+        this.LoadGameData();
         cc.log("Game Reset!");
     }
 

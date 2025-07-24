@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "ae30cdf0-76ba-4b18-9715-b87bfb0bea40",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "point",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 45,
+  "height": 47,
+  "platformSettings": {},
+  "subMetas": {
+    "Mario": {
+      "ver": "1.0.6",
+      "uuid": "c7342a12-34cb-47c9-ab3b-9c45e4780aaa",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "ae30cdf0-76ba-4b18-9715-b87bfb0bea40",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 45,
+      "height": 47,
+      "rawWidth": 45,
+      "rawHeight": 47,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
