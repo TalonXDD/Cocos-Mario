@@ -1,13 +1,10 @@
 import audioManager from "../Game/audioManager";
-import gameManager from "../Game/gameManager";
+import gameManager, { GameState } from "../Game/gameManager";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class item extends cc.Component {
-
-    @property()
-    speed: number = 100;
 
     protected gameMgr: gameManager = null;
     protected audioMgr: audioManager = null;
@@ -16,6 +13,9 @@ export default class item extends cc.Component {
     protected rb: cc.RigidBody = null;
     protected boxCollider: cc.PhysicsBoxCollider = null;
     protected circleCollider: cc.PhysicsCircleCollider = null;
+
+    @property()
+    protected speed: number = 100;
 
     protected collectable: boolean = false; // 是否可以被收集
     protected moveable: boolean = false; // 是否可以移動
@@ -40,7 +40,7 @@ export default class item extends cc.Component {
         }
         if (this.moveable) {
             this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
-            this.rb.gravityScale = 2; // 恢復重力
+            this.rb.gravityScale = 3; // 恢復重力
         }
         else {
             this.rb.linearVelocity = cc.v2(0, 0);
@@ -67,8 +67,8 @@ export default class item extends cc.Component {
     }
 
     onPreSolve(contact, self, other) {
-        let normalX = contact.getWorldManifold().normal.x;
         if (other.node.group == "Ground" || other.node.group == "Block") {
+            let normalX = contact.getWorldManifold().normal.x;
             if (normalX == 1 || normalX == -1) {
                 this.changeDirection(normalX);
             }

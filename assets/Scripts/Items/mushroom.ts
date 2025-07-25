@@ -20,4 +20,8 @@ export default class mushroom extends item {
     onBeginContact(contact, self, other) {
         super.onBeginContact(contact, self, other);
     }
+
+    onPreSolve(contact: any, self: any, other: any): void {
+        super.onPreSolve(contact, self, other);
+    }
 }

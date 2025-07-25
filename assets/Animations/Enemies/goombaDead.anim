@@ -24,14 +24,6 @@
             }
           }
         ]
-      },
-      "cc.PhysicsBoxCollider": {
-        "sensor": [
-          {
-            "frame": 0,
-            "value": true
-          }
-        ]
       }
     }
   },
