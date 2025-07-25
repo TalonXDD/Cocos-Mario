@@ -211,7 +211,7 @@
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 12,
+      "width": 11,
       "height": 15.5
     },
     "_id": ""
@@ -233,9 +233,9 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -6
+      "y": -5
     },
-    "_radius": 2,
+    "_radius": 3,
     "_id": ""
   },
   {
