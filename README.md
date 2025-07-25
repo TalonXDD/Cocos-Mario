@@ -8,7 +8,7 @@
 |Basic Rules|45%|N|
 |Animations|10%|N|
 |Sound Effects|10%|N|
-|UI|10%|N|
+|UI|10%|Y|
 |Appearence|5%|N|
 
 |**Advanced Component**|**Score**|**Check**|
