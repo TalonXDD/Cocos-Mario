@@ -97,10 +97,10 @@
     "_stopped": false,
     "playOnLoad": true,
     "autoRemoveOnFinish": true,
-    "totalParticles": 8,
-    "duration": 1,
+    "totalParticles": 5,
+    "duration": 0.5,
     "emissionRate": 100,
-    "life": 1,
+    "life": 0.5,
     "lifeVar": 0,
     "_startColor": {
       "__type__": "cc.Color",
@@ -147,8 +147,8 @@
     },
     "posVar": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 5,
+      "y": 5
     },
     "_positionType": 0,
     "positionType": 0,

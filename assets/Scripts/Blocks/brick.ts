@@ -20,12 +20,11 @@ export default class brick extends block {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.anim = this.getComponent(cc.Animation);
+        super.onLoad();
     }
 
     start () {
-        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
-        this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
+        super.start();
 
         this.remainHit = 1; // Reset hit count for brick
     }
@@ -44,14 +43,15 @@ export default class brick extends block {
                         this.node.destroy();
                         break;
                     case brickType.COIN:
-                        this.moveAction();
+                        this.createCoin();
                         this.gameMgr.collectCoin();
                         break;
                     case brickType.POWERUP:
-                        this.moveAction();
+                        this.createItem(self, other);
                         this.audioMgr.playItemAppear();
                         break;
                 }
+                this.moveAction();
             }
             this.remainHit--;
             if (this.remainHit <= 0) {

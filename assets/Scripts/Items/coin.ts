@@ -13,13 +13,21 @@ export default class coin extends item {
     // onLoad () {}
 
     start () {
-
+        super.start();
     }
 
     // update (dt) {}
 
     onBeginContact(contact, self, other) {
-        super.onBeginContact(contact, self, other);
+        if (other.node.group == "Void") {
+            this.scheduleOnce(() => {
+                this.node.destroy();
+            }, 0.5);
+        }
+        else if (other.node.group == "Player" && this.collectable) {
+            this.gameMgr.collectCoin();
+            this.createCollectEffect();
+        }
     }
 
     createCollectEffect() {

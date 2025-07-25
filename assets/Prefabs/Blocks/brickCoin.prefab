@@ -228,6 +228,12 @@
     },
     "_enabled": true,
     "remainHit": 1,
+    "coinPrefab": {
+      "__uuid__": "bc84bc2d-76c3-4b30-8030-6799d23f910a"
+    },
+    "itemPrefab": {
+      "__uuid__": "6462f114-dcab-4518-ae14-0f86e0b04c6a"
+    },
     "brickType": 1,
     "breakPrefab": {
       "__uuid__": "a4f5d4e7-83ce-408a-8a9f-8a600cd74976"

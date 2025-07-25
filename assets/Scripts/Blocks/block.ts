@@ -21,7 +21,9 @@ export default class block extends cc.Component {
     
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        this.anim = this.getComponent(cc.Animation);
+    }
 
     start () {
         this.anim = this.getComponent(cc.Animation);
@@ -52,22 +54,42 @@ export default class block extends cc.Component {
             .start();
     }
 
+    // Create coin when block is hit
     protected createCoin() {
+        if (!this.coinPrefab) {
+            cc.warn("Coin prefab is not set!");
+            return;
+        }
         let coin = cc.instantiate(this.coinPrefab);
         coin.parent = this.node.parent;
         coin.setPosition(this.node.position);
+        coin.setSiblingIndex(this.node.getSiblingIndex()); // Place coin before the block
+        coin.getComponent(cc.Animation).play("CoinShowUp");
+        coin.getComponent(cc.PhysicsCircleCollider).enabled = false; // Disable collider temporarily
         cc.tween(coin)
-            .by(0.15, {y: 60})
-            .delay(0.15)
+            .by(0.2, {y: 48})
+            .delay(0.3)
             .call(() => {
                 coin.destroy();
-            });
+            })
+            .start();
     }
 
-    protected createItem() {
-        let item = cc.instantiate(this.itemPrefab);
-        item.parent = this.node.parent;
-        item.setPosition(this.node.position);
-        
+    // Create item when block is hit
+    protected createItem(self, other) {
+        if (!this.itemPrefab) {
+            cc.warn("Item prefab is not set!");
+            return;
+        }
+        const playerWorldPos = other.node.parent.convertToWorldSpaceAR(other.node.position);
+        const selfWorldPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+        const direction = playerWorldPos.x < selfWorldPos.x ? 1 : -1;
+        this.scheduleOnce(() => {
+            let item = cc.instantiate(this.itemPrefab);
+            item.parent = this.node.parent;
+            item.setPosition(this.node.position);
+            item.setSiblingIndex(this.node.getSiblingIndex()); // Place item before the block
+            item.getComponent(item.name).showUp(direction);
+        }, 0.2);
     }
 }

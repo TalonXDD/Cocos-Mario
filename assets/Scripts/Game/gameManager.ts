@@ -22,12 +22,15 @@ export default class gameManager extends cc.Component {
     private timer: number = 200;
     private warning: boolean = false;
     private gameState: GameState = GameState.LOADING;
+    private maxScore: number = 99999999; // Maximum score limit
+    private maxCoins: number = 99;
+    private maxLives: number = 99;
 
     // Player properties
     private score: number = 0;
     private coins: number = 0;
-    private lives: number = 5;
-    private playerHealth: number = 1;
+    private lives: number = 5; // Player lives  
+    private playerHealth: number = 1; // Player health, 1 for small, 2 for big
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -74,6 +77,7 @@ export default class gameManager extends cc.Component {
         this.setScore(gameData.score);
         this.setCoins(gameData.coins);
         this.setLives(gameData.lives);
+        this.setPlayerHealth(gameData.playerHealth);
         // this.setPlayerHealth(gameData.playerHealth);
     }
 
@@ -104,6 +108,12 @@ export default class gameManager extends cc.Component {
     }
 
     setScore(value: number): void {
+        if (value < 0) {
+            value = 0; // Prevent negative scores
+        }
+        else if (value > this.maxScore) {
+            value = this.maxScore; // Cap score at maxScore
+        }
         this.score = value;
         cc.log("Set Score: " + this.score);
     }
@@ -113,6 +123,12 @@ export default class gameManager extends cc.Component {
     }
 
     setCoins(value: number): void {
+        if (value < 0) {
+            value = 0; // Prevent negative coins
+        }
+        else if (value > this.maxCoins) {
+            value = this.maxCoins; // Cap coins at maxCoins
+        }
         this.coins = value;
         cc.log("Set Coins: " + this.coins);
     }
@@ -122,12 +138,29 @@ export default class gameManager extends cc.Component {
     }
 
     setLives(value: number): void {
+        if (value < 0) {
+            value = 0; // Prevent negative lives
+        }
+        else if (value > this.maxLives) {
+            value = this.maxLives; // Cap lives at maxLives
+        }
         this.lives = value;
         cc.log("Set Lives: " + this.lives);
     }
 
     getPlayerHealth(): number {
         return this.playerHealth;
+    }
+
+    setPlayerHealth(value: number): void {
+        if (value < 1) {
+            value = 1; // Prevent health below 1
+        }
+        else if (value > 2) {
+            value = 2; // Cap health at 2 (small or big)
+        }
+        this.playerHealth = value;
+        cc.log("Set Player Health: " + this.playerHealth);
     }
 
     /**
@@ -155,11 +188,19 @@ export default class gameManager extends cc.Component {
 
     addCoins(value: number): void {
         this.coins += value;
+        if (this.coins > this.maxCoins) {
+            this.coins -= 100;
+            this.addLives(1); // Add a life if coins exceed maxCoins
+            this.audioMgr.playOneUp100();
+        }
         cc.log("Add Coins: " + value + ", Current Coins: " + this.coins);
     }
 
     addLives(value: number): void {
         this.lives += value;
+        if (this.lives > this.maxLives) {
+            this.lives = this.maxLives; // Cap lives at maxLives
+        }
         cc.log("Add Lives: " + value + ", Current Lives: " + this.lives);
     }
 
@@ -177,5 +218,22 @@ export default class gameManager extends cc.Component {
         this.addCoins(1);
         this.addScore(100);
         this.audioMgr.playCoin();
+    }
+
+    collectMushroom(): void {
+        if (this.getPlayerHealth() == 1) {
+            this.setPlayerHealth(2); // Change to big
+            this.audioMgr.playChangeBig();
+        }
+        else if (this.getPlayerHealth() == 2) {
+            this.audioMgr.playGetItemAgain();
+        }
+        this.addScore(1000);
+    }
+
+    collectMushroom1Up(): void {
+        this.addLives(1);
+        this.audioMgr.playOneUp();
+        cc.log("Collected 1-Up Mushroom!");
     }
 }

@@ -73,6 +73,9 @@ export default class audioManager extends cc.Component {
     oneUp: cc.AudioClip = null;
 
     @property(cc.AudioClip)
+    oneUp100: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
     getItemAgain: cc.AudioClip = null;
     
     // LIFE-CYCLE CALLBACKS:
@@ -182,6 +185,10 @@ export default class audioManager extends cc.Component {
 
     playOneUp() {
         cc.audioEngine.playEffect(this.oneUp, false);
+    }
+
+    playOneUp100() {
+        cc.audioEngine.playEffect(this.oneUp100, false);
     }
 
     playGetItemAgain() {

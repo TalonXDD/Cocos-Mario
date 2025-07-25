@@ -16,12 +16,11 @@ export default class qBlock extends block {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.anim = this.getComponent(cc.Animation);
+        super.onLoad();
     }
 
     start () {
-        this.gameMgr = cc.find("GameManager").getComponent("gameManager");
-        this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
+        super.start();
 
         this.remainHit = 1; // Reset hit count for qBlock
     }
@@ -35,9 +34,11 @@ export default class qBlock extends block {
             if (this.remainHit > 0) {
                 switch (this.qBlockType) {
                     case qBlockType.COIN:
+                        this.createCoin();
                         this.gameMgr.collectCoin();
                         break;
                     case qBlockType.POWERUP:
+                        this.createItem(self, other);
                         this.audioMgr.playItemAppear();
                         break;
                 }

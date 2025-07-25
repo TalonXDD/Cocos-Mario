@@ -134,7 +134,7 @@ export default class player extends cc.Component {
                 this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
             }
         }
-        else if (other.node.group == "Enemy") {
+        else if (other.node.group == "Enemy") { // TODO
             if (normalY != -1) {
                 this.health--;
                 if (this.health <= 0) {
@@ -148,7 +148,10 @@ export default class player extends cc.Component {
                 other.getComponent("coin").createCollectEffect();
             }
             else if (other.node.name == "mushroom") {
-
+                this.gameMgr.collectMushroom();
+            }
+            else if (other.node.name == "mushroom1Up") {
+                this.gameMgr.collectMushroom1Up();
             }
             else if (other.node.name == "starCoin") {
                 this.gameMgr.addScore(4000);
@@ -165,10 +168,10 @@ export default class player extends cc.Component {
                 this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
             }
         }
-        else if (other.node.group == "Pole") {
+        else if (other.node.group == "Pole") { // TODO
             this.gameMgr.playerWon();
         }
-        else if (other.node.group == "Void") {
+        else if (other.node.group == "Void") { // TODO
             this.gameMgr.playerDied();
         }
 

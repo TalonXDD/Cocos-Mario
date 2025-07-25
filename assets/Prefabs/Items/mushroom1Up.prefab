@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "qBlock",
+    "_name": "mushroom1Up",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -48,13 +48,13 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 24,
-      "height": 24
+      "width": 20,
+      "height": 20
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 0.6
     },
     "_trs": {
       "__type__": "TypedArray",
@@ -81,8 +81,8 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
-    "_groupIndex": 5,
-    "groupIndex": 5,
+    "_groupIndex": 4,
+    "groupIndex": 4,
     "_id": ""
   },
   {
@@ -101,10 +101,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "99212e47-97fc-401e-bd35-9bfa4a22d610"
+      "__uuid__": "5a8b9724-698c-4ed2-8ddb-6571a44fc31f"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -114,31 +114,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "c4078157-5070-449c-934a-a6ca408e8f82"
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_defaultClip": {
-      "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
-    },
-    "_clips": [
-      {
-        "__uuid__": "ee0c2349-0d73-4bc7-b305-6335a25bee6b"
-      },
-      {
-        "__uuid__": "db943260-2fda-4443-a65f-c155f482c397"
-      }
-    ],
-    "playOnLoad": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -149,9 +125,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_type": 1,
+    "_type": 2,
     "_allowSleep": true,
-    "_gravityScale": 1,
+    "_gravityScale": 0,
     "_linearDamping": 0,
     "_angularDamping": 0,
     "_linearVelocity": {
@@ -167,13 +143,13 @@
     "_id": ""
   },
   {
-    "__type__": "cc.PhysicsPolygonCollider",
+    "__type__": "cc.PhysicsBoxCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
-    "_enabled": true,
+    "_enabled": false,
     "tag": 0,
     "_density": 1,
     "_sensor": false,
@@ -183,58 +159,46 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": -1.5
     },
-    "points": [
-      {
-        "__type__": "cc.Vec2",
-        "x": -11,
-        "y": 12
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -12,
-        "y": 11
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -12,
-        "y": -12
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 12,
-        "y": -12
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 12,
-        "y": 11
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 11,
-        "y": 12
-      }
-    ],
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 20,
+      "height": 19
+    },
     "_id": ""
   },
   {
-    "__type__": "fbcc7tJoiRMao/PO4poO28j",
+    "__type__": "cc.PhysicsCircleCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": false,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": -10
+    },
+    "_radius": 2,
+    "_id": ""
+  },
+  {
+    "__type__": "6a04fMF0m5G/bvVYWlagX/f",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "remainHit": 1,
-    "coinPrefab": {
-      "__uuid__": "bc84bc2d-76c3-4b30-8030-6799d23f910a"
-    },
-    "itemPrefab": {
-      "__uuid__": "d6540166-91d0-460f-aa03-35e3c5e2a425"
-    },
-    "qBlockType": 0,
+    "speed": 100,
     "_id": ""
   },
   {

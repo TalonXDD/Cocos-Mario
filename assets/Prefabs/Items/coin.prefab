@@ -133,6 +133,9 @@
     "_clips": [
       {
         "__uuid__": "2edf24eb-9fa5-4422-aeaf-9f8517999671"
+      },
+      {
+        "__uuid__": "9d9bd439-593d-4fa0-a5bf-7474ee8bd229"
       }
     ],
     "playOnLoad": true,
@@ -193,6 +196,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "speed": 100,
     "collectEffectPrefab": {
       "__uuid__": "3fec741a-a827-479e-912e-ed7a6dfb88de"
     },

@@ -3,7 +3,7 @@ import item from "./item";
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class mushroom extends item {
+export default class mushroom1Up extends item {
 
     // LIFE-CYCLE CALLBACKS:
 
