@@ -71,6 +71,7 @@ export default class gameManager extends cc.Component {
         gameData.coins = this.getCoins();
         gameData.lives = this.getLives();
         gameData.playerHealth = this.getPlayerHealth();
+        cc.log("Game Data Saved: ", gameData);
     }
 
     LoadGameData() {
@@ -78,7 +79,7 @@ export default class gameManager extends cc.Component {
         this.setCoins(gameData.coins);
         this.setLives(gameData.lives);
         this.setPlayerHealth(gameData.playerHealth);
-        // this.setPlayerHealth(gameData.playerHealth);
+        cc.log("Game Data Loaded: ", gameData);
     }
 
     /**
@@ -115,7 +116,6 @@ export default class gameManager extends cc.Component {
             value = this.maxScore; // Cap score at maxScore
         }
         this.score = value;
-        cc.log("Set Score: " + this.score);
     }
 
     getCoins(): number {
@@ -130,7 +130,6 @@ export default class gameManager extends cc.Component {
             value = this.maxCoins; // Cap coins at maxCoins
         }
         this.coins = value;
-        cc.log("Set Coins: " + this.coins);
     }
 
     getLives(): number {
@@ -145,7 +144,6 @@ export default class gameManager extends cc.Component {
             value = this.maxLives; // Cap lives at maxLives
         }
         this.lives = value;
-        cc.log("Set Lives: " + this.lives);
     }
 
     getPlayerHealth(): number {
@@ -160,14 +158,13 @@ export default class gameManager extends cc.Component {
             value = 2; // Cap health at 2 (small or big)
         }
         this.playerHealth = value;
-        cc.log("Set Player Health: " + this.playerHealth);
     }
 
     /**
      * Game control functions
      */
 
-    resetGame(): void {
+    private resetGame(): void {
         this.audioMgr.stopBGM();
         this.setGameState(GameState.LOADING);
         this.setTimer(200);
@@ -175,36 +172,49 @@ export default class gameManager extends cc.Component {
         cc.log("Game Reset!");
     }
 
-    startGame(): void {
+    private startGame(): void {
         this.setGameState(GameState.PLAYING);
         this.audioMgr.playBGM();
         cc.log("Game Started!");
     }
 
     addScore(value: number): void {
-        this.score += value;
-        cc.log("Add Score: " + value + ", Current Score: " + this.score);
+        this.setScore(this.getScore() + value);
+        cc.log("Add Score: " + value + ", Current Score: " + this.getScore());
     }
 
     addCoins(value: number): void {
-        this.coins += value;
-        if (this.coins > this.maxCoins) {
-            this.coins -= 100;
-            this.addLives(1); // Add a life if coins exceed maxCoins
-            this.audioMgr.playOneUp100();
+        let result = this.getCoins() + value;
+        if (result > this.maxCoins) {
+            while(result > this.maxCoins) {
+                result -= 100; // 每100個硬幣增加1條命
+                this.setLives(this.getLives() + 1);
+                this.audioMgr.playOneUp100();
+            }
         }
-        cc.log("Add Coins: " + value + ", Current Coins: " + this.coins);
+        this.setCoins(result);
+        cc.log("Add Coins: " + value + ", Current Coins: " + this.getCoins());
     }
 
     addLives(value: number): void {
-        this.lives += value;
-        if (this.lives > this.maxLives) {
-            this.lives = this.maxLives; // Cap lives at maxLives
+        this.setLives(this.getLives() + value);
+        cc.log("Add Lives: " + value + ", Current Lives: " + this.getLives());
+    }
+
+    PlayerHurt(): void {
+        this.setPlayerHealth(this.getPlayerHealth() - 1);
+        if (this.getPlayerHealth() >= 1) {
+            this.audioMgr.playChangeSmall();
         }
-        cc.log("Add Lives: " + value + ", Current Lives: " + this.lives);
+        else if (this.getPlayerHealth() <= 0) {
+            this.playerDied();
+        } else {
+            cc.log("Player Hurt! Current Health: " + this.getPlayerHealth());
+        }
     }
 
     playerDied(): void {
+        this.audioMgr.playDead();
         this.setGameState(GameState.GAME_OVER);
         cc.log("Player Died! Game Over!");
     }
