@@ -18,6 +18,8 @@ export default class enemy extends cc.Component {
     protected speed: number = 100; // Speed of the enemy movement
 
     protected direction: number = -1; // 1 for right, -1 for left
+    
+    public isDead: boolean = false; // Flag to check if the enemy is dead
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -63,12 +65,6 @@ export default class enemy extends cc.Component {
             let normalY = contact.getWorldManifold().normal.y;
             if (normalX == 1 || normalX == -1) {
                 this.changeDirection(normalX);
-            }
-            else if (normalY == 1) {
-                this.anim.play("goombaDead");
-                this.scheduleOnce(() => {
-                    this.node.destroy();
-                }, 0.5);
             }
         }
     }

@@ -16,12 +16,13 @@ export enum GameState {
 export default class gameManager extends cc.Component {
 
     // Audio manager reference
-    private audioMgr: audioManager
+    private audioMgr: audioManager = null;
     
     // Game properties
-    private timer: number = 200;
+    private timer: number = 0;
     private warning: boolean = false;
     private gameState: GameState = GameState.LOADING;
+    private initTimer: number = 300; // Initial timer value
     private maxScore: number = 99999999; // Maximum score limit
     private maxCoins: number = 99;
     private maxLives: number = 99;
@@ -35,6 +36,8 @@ export default class gameManager extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        cc.director.getPhysicsManager().enabled = true;
+        // cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
         cc.game.setFrameRate(59);
     }
 
@@ -42,7 +45,9 @@ export default class gameManager extends cc.Component {
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
 
         this.resetGame();
-
+        // Show loading screen or splash screen
+        // TODO...
+        // 
         this.scheduleOnce(() => {
             this.startGame();
         }, 2); // Start the game after 2 seconds
@@ -50,7 +55,7 @@ export default class gameManager extends cc.Component {
 
     update (dt) {
         if (this.getGameState() == GameState.PLAYING) {
-            this.setTimer(this.getTimer() - dt);
+            this.setTimer(this.getTimer() - dt * 1.25);
             if (this.getTimer() <= 100 && !this.warning) {
                 this.warning = true;
                 this.audioMgr.playHurryUp();
@@ -71,7 +76,11 @@ export default class gameManager extends cc.Component {
         gameData.coins = this.getCoins();
         gameData.lives = this.getLives();
         gameData.playerHealth = this.getPlayerHealth();
-        cc.log("Game Data Saved: ", gameData);
+        cc.log("Game Data Saved: ");
+        cc.log("Score: " + gameData.score);
+        cc.log("Coins: " + gameData.coins); 
+        cc.log("Lives: " + gameData.lives);
+        cc.log("Player Health: " + gameData.playerHealth);
     }
 
     LoadGameData() {
@@ -79,7 +88,11 @@ export default class gameManager extends cc.Component {
         this.setCoins(gameData.coins);
         this.setLives(gameData.lives);
         this.setPlayerHealth(gameData.playerHealth);
-        cc.log("Game Data Loaded: ", gameData);
+        cc.log("Game Data Loaded: ");
+        cc.log("Score: " + gameData.score);
+        cc.log("Coins: " + gameData.coins);
+        cc.log("Lives: " + gameData.lives);
+        cc.log("Player Health: " + gameData.playerHealth);
     }
 
     /**
@@ -151,8 +164,8 @@ export default class gameManager extends cc.Component {
     }
 
     setPlayerHealth(value: number): void {
-        if (value < 1) {
-            value = 1; // Prevent health below 1
+        if (value < 0) {
+            value = 0; // Prevent health below 0
         }
         else if (value > 2) {
             value = 2; // Cap health at 2 (small or big)
@@ -167,7 +180,7 @@ export default class gameManager extends cc.Component {
     private resetGame(): void {
         this.audioMgr.stopBGM();
         this.setGameState(GameState.LOADING);
-        this.setTimer(200);
+        this.setTimer(this.initTimer);
         this.LoadGameData();
         cc.log("Game Reset!");
     }
@@ -180,7 +193,7 @@ export default class gameManager extends cc.Component {
 
     addScore(value: number): void {
         this.setScore(this.getScore() + value);
-        cc.log("Add Score: " + value + ", Current Score: " + this.getScore());
+        cc.log("Score - Add: " + value + ", Current: " + this.getScore());
     }
 
     addCoins(value: number): void {
@@ -193,12 +206,12 @@ export default class gameManager extends cc.Component {
             }
         }
         this.setCoins(result);
-        cc.log("Add Coins: " + value + ", Current Coins: " + this.getCoins());
+        cc.log("Coins - Add: " + value + ", Current: " + this.getCoins());
     }
 
     addLives(value: number): void {
         this.setLives(this.getLives() + value);
-        cc.log("Add Lives: " + value + ", Current Lives: " + this.getLives());
+        cc.log("Lives - Add: " + value + ", Current: " + this.getLives());
     }
 
     PlayerHurt(): void {
@@ -208,9 +221,8 @@ export default class gameManager extends cc.Component {
         }
         else if (this.getPlayerHealth() <= 0) {
             this.playerDied();
-        } else {
-            cc.log("Player Hurt! Current Health: " + this.getPlayerHealth());
-        }
+        } 
+        cc.log("Player Hurt! Current Health: " + this.getPlayerHealth());
     }
 
     playerDied(): void {
@@ -234,9 +246,11 @@ export default class gameManager extends cc.Component {
         if (this.getPlayerHealth() == 1) {
             this.setPlayerHealth(2); // Change to big
             this.audioMgr.playChangeBig();
+            cc.log("Collected Mushroom!");
         }
         else if (this.getPlayerHealth() == 2) {
             this.audioMgr.playGetItemAgain();
+            cc.log("Already big!");
         }
         this.addScore(1000);
     }
@@ -245,5 +259,10 @@ export default class gameManager extends cc.Component {
         this.addLives(1);
         this.audioMgr.playOneUp();
         cc.log("Collected 1-Up Mushroom!");
+    }
+
+    enemyHurt(): void {
+        this.audioMgr.playEnemyHurt();
+        this.addScore(200);
     }
 }

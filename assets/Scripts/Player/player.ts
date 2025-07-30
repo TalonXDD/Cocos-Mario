@@ -16,7 +16,8 @@ export default class player extends cc.Component {
     private anim: cc.Animation = null;
 
     // Player properties
-    private health: number = 1;
+    private direction: number = 1; // 1 for right, -1 for left
+
     private acceleration:number = 550;
     private speedCap: number = 125;
     private runSpeedCap: number = 250; // Speed cap when running
@@ -26,11 +27,12 @@ export default class player extends cc.Component {
     private jumpTime: number = 0; // How long the player has held the jump key
 
     // Player state
-    private direction: number = 1; // 1 for right, -1 for left
     private onGround: boolean = false;
     private run: boolean = false;
     private isJumping: boolean = false;
     private isHoldingJump: boolean = false;
+    private invisible: boolean = false; // Player is invisible
+    private isDead: boolean = false; // Player is dead
 
     // Animation properties
     private jumpID: number = 1; // 1 for jump1_s, -1 for jump2_s
@@ -47,7 +49,7 @@ export default class player extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        cc.director.getPhysicsManager().enabled = true;
+        // cc.director.getPhysicsManager().enabled = true; // Enable physics manager
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         this.anim = this.getComponent(cc.Animation);
@@ -66,14 +68,15 @@ export default class player extends cc.Component {
     update (dt) {
         if (this.gameMgr.getGameState() == GameState.PLAYING) {
             this.updateMovement(dt);
-            this.playAnimation();
         }
+        this.playAnimation();
     }
 
     onKeyDown(event) {
-        if (event.keyCode == cc.macro.KEY.space) {
+        if (event.keyCode == cc.macro.KEY.space || event.keyCode == cc.macro.KEY.w || event.keyCode == cc.macro.KEY.up) {
             this.isSpaceDown = true;
             if (this.onGround && !this.isJumping) {
+                this.audioMgr.playJump();
                 this.isJumping = true;
                 this.isHoldingJump = true;
                 this.jumpID *= -1;
@@ -90,15 +93,13 @@ export default class player extends cc.Component {
         else if (event.keyCode == cc.macro.KEY.shift) {
             this.isShiftDown = true;
         }
-        else if (event.keyCode == cc.macro.KEY.p) {
-            cc.log("Velocity: ", this.rb.linearVelocity);
-            cc.log("Contact: ", this.contact);
-            cc.log("GetWorldManifold", this.contact.getWorldManifold());
+        else if (event.keyCode == cc.macro.KEY.o) {
+            this.gameMgr.collectMushroom();
         }
     }
 
     onKeyUp(event) {
-        if (event.keyCode == cc.macro.KEY.space) {
+        if (event.keyCode == cc.macro.KEY.space || event.keyCode == cc.macro.KEY.w || event.keyCode == cc.macro.KEY.up) {
             this.isSpaceDown = false;
             this.isHoldingJump = false;
         }
@@ -121,6 +122,7 @@ export default class player extends cc.Component {
 
     onBeginContact(contact, self, other) {
         let normalY = contact.getWorldManifold().normal.y;
+        cc.log("Normal:" + contact.getWorldManifold().normal + ", Other:", other.node.name);
 
         if (other.node.group == "Ground") { // Player is on the ground
             if (other.node.name == "Orange" && normalY != -1) { // One-Way platform
@@ -134,12 +136,29 @@ export default class player extends cc.Component {
                 this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
             }
         }
-        else if (other.node.group == "Enemy") { // TODO
-            if (normalY != -1) {
-                this.health--;
-                if (this.health <= 0) {
-                    this.gameMgr.playerDied();
+        else if (other.node.group == "Enemy") {
+            let enemyDead = other.getComponent(other.node.name).isDead;
+            if (normalY <= -0.71) {
+                if (enemyDead == false) {
+                    this.gameMgr.enemyHurt(); // Player hurt the enemy
+                    other.getComponent(other.node.name).isDead = true; // Mark enemy as dead
+                    this.isJumping = true;
+                    this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
                 }
+            }
+            else if (this.invisible == false) {
+                this.gameMgr.PlayerHurt(); // Player hurt by enemy
+                this.invisible = true; // Make player invisible
+                if (this.gameMgr.getPlayerHealth() <= 0) {
+                    this.isDead = true; // Player is dead
+                    return; // Player is dead, no further actions
+                }
+                this.scheduleOnce(() => {
+                    this.invisible = false; // Reset invisibility after 2 seconds
+                }, 2);
+                cc.tween(this.node)
+                    .blink(2, 10) // Blink effect to indicate player hurt
+                    .start();
             }
         }
         else if (other.node.group == "Item") {
@@ -171,7 +190,8 @@ export default class player extends cc.Component {
         else if (other.node.group == "Pole") { // TODO
             this.gameMgr.playerWon();
         }
-        else if (other.node.group == "Void") { // TODO
+        else if (other.node.group == "VoidPlayer") { // TODO
+            this.isDead = true; // Player is dead
             this.gameMgr.playerDied();
         }
 
@@ -268,36 +288,41 @@ export default class player extends cc.Component {
             this.node.scaleX = -Math.abs(this.node.scaleX);
         }
 
-        let isMoving = this.isLeftDown || this.isRightDown
         let animName = null;
-        if (this.isJumping) {
-            if (this.run) {
-                animName = "jumpRun_s";
-            }
-            else {
-                if (this.jumpID > 0) {
-                    animName = "jump1_s";
-                }
-                else {
-                    animName = "jump2_s";
-                }
-            }
-        }
-        else if (isMoving) {
-            if (this.run) {
-                if (this.rb.linearVelocity.x * this.direction < 0) {
-                    animName = "changeDir_s";
-                }
-                else {
-                    animName = "run_s";
-                }
-            }
-            else {
-                animName = "walk_s";
-            }
+        if (this.isDead) {
+            animName = "die_s";
         }
         else {
-            animName = "idle_s";
+            let isMoving = this.isLeftDown || this.isRightDown
+            if (this.isJumping) {
+                if (this.run) {
+                    animName = "jumpRun_s";
+                }
+                else {
+                    if (this.jumpID > 0) {
+                        animName = "jump1_s";
+                    }
+                    else {
+                        animName = "jump2_s";
+                    }
+                }
+            }
+            else if (isMoving) {
+                if (this.run) {
+                    if (this.rb.linearVelocity.x * this.direction < 0) {
+                        animName = "changeDir_s";
+                    }
+                    else {
+                        animName = "run_s";
+                    }
+                }
+                else {
+                    animName = "walk_s";
+                }
+            }
+            else {
+                animName = "idle_s";
+            }
         }
 
         if (!this.anim.getAnimationState(animName).isPlaying) {

@@ -1,5 +1,5 @@
 {
-  "start-scene": "8b1f78ba-7427-41a8-8ec5-4d4ae3ecceeb",
+  "start-scene": "29482b16-f5a1-43d1-b474-06e05f80de14",
   "group-list": [
     "default",
     "Ground",
@@ -10,7 +10,8 @@
     "Pole",
     "Void",
     "Wall",
-    "UI"
+    "UI",
+    "VoidPlayer"
   ],
   "collision-matrix": [
     [
@@ -31,7 +32,9 @@
       true,
       true,
       true,
+      false,
       true,
+      null,
       true
     ],
     [
@@ -76,7 +79,7 @@
     [
       false,
       false,
-      true,
+      false,
       true,
       true,
       false,
@@ -97,6 +100,19 @@
     [
       false,
       false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      true,
       false,
       false,
       false,

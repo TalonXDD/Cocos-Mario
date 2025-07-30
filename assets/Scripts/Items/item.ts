@@ -50,9 +50,7 @@ export default class item extends cc.Component {
 
     onBeginContact(contact, self, other) {
         if (other.node.group == "Void") {
-            this.scheduleOnce(() => {
-                this.node.destroy();
-            }, 0.5);
+            this.node.destroy();
         }
         else if (other.node.group == "Wall") {
             let normalX = contact.getWorldManifold().normal.x;

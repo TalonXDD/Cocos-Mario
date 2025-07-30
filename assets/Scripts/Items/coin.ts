@@ -20,11 +20,10 @@ export default class coin extends item {
 
     onBeginContact(contact, self, other) {
         if (other.node.group == "Void") {
-            this.scheduleOnce(() => {
-                this.node.destroy();
-            }, 0.5);
+            this.node.destroy();
         }
         else if (other.node.group == "Player" && this.collectable) {
+            cc.log("called from coin.ts");
             this.gameMgr.collectCoin();
             this.createCollectEffect();
         }
