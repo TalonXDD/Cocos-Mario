@@ -6,6 +6,8 @@ const {ccclass, property} = cc._decorator;
 export default class koppa extends enemy {
 
     private polygonCollider: cc.PhysicsPolygonCollider = null;
+    private polyPoints: cc.Vec2[] = []; // Store polygon points for koppa
+    private pendingPoly: 'disablePoly' | 'enablePoly' | '' = ''; 
 
     @property()
     protected shellSpeed: number = 120; // Speed of the shell movement
@@ -24,20 +26,34 @@ export default class koppa extends enemy {
     start () {
         super.start();
         this.polygonCollider = this.getComponent(cc.PhysicsPolygonCollider);
+        if (this.polygonCollider) {
+            this.polyPoints = this.polygonCollider.points.map(p => cc.v2(p));
+        }
     }
 
     update (dt) {
         super.update(dt);
-        if (this.isShell) {
-            this.polygonCollider.enabled = false; // Disable collider while in shell state
+        if (this.pendingPoly === 'disablePoly') {
+            if (this.polygonCollider && this.polygonCollider.isValid) {
+                this.polygonCollider.destroy(); // Ensure fixture is removed from the world
+                this.polygonCollider = null;
+            }
+            this.pendingPoly = '';
+        } else if (this.pendingPoly === 'enablePoly') {
+            if (!this.polygonCollider || !this.polygonCollider.isValid) {
+                const poly = this.node.addComponent(cc.PhysicsPolygonCollider);
+                poly.points = this.polyPoints.map(p => cc.v2(p));
+                poly.apply();
+                this.polygonCollider = poly;
+            }
+            this.pendingPoly = '';
         }
-        if (this.isShell && this.kickable) {
-            this.shellTimer += dt;
-            if (this.shellTimer >= this.shellTime) {
-                this.isShell = false; // Convert back to koppa
-                this.kickable = false; // Reset kickable state
-                this.shellTimer = 0; // Reset shell timer
-                this.polygonCollider.enabled = true; // Enable collider
+        if (this.isShell) {
+            if (this.kickable) {
+                this.shellTimer += dt;
+                if (this.shellTimer >= this.shellTime) {
+                    this.exitShell(); // Convert back to koppa
+                }
             }
         }
     }
@@ -46,14 +62,10 @@ export default class koppa extends enemy {
         super.onBeginContact(contact, self, other);
 
         if (other.node.group == "Player") {
-            let normalX = contact.getWorldManifold().normal.x;
-            let normalY = contact.getWorldManifold().normal.y;
-            if (normalY > 0.71) {
+            const n = contact.getWorldManifold().normal;
+            if (n.y > 0.71) {
                 if (!this.isShell) {
-                    this.isShell = true; // Convert to shell
-                    this.kickable = true; // Set kickable state
-                    this.shellTimer = 0; // Reset shell timer
-                    this.polygonCollider.enabled = false; // Disable collider
+                    this.enterShell(); // Convert to shell
                 }
                 else {
                     if (this.kickable) {
@@ -68,15 +80,17 @@ export default class koppa extends enemy {
                         this.shellTimer = 0; // Reset shell timer
                         this.dangerous = false; // Reset dangerous state
                     }
+                    contact.disabled = true; // Disable contact to prevent further interactions
                 }
             }
-            else if (Math.abs(normalX) > 0.71) {
+            else if (Math.abs(n.x) > 0.71) {
                 if (this.isShell && this.kickable) {
                     const playerWorldPos = other.node.parent.convertToWorldSpaceAR(other.node.position);
                     const selfWorldPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
                     this.direction = playerWorldPos.x < selfWorldPos.x ? 1 : -1;
                     this.kickable = false; // Reset kickable state
                     this.dangerous = true; // Set dangerous state
+                    contact.disabled = true; // Disable contact to prevent further interactions
                 }
             }
         }
@@ -91,6 +105,20 @@ export default class koppa extends enemy {
                 this.audioMgr.playHardBrick();
             }
         }
+    }
+
+    private enterShell() {
+        this.isShell = true; // Convert to shell
+        this.kickable = true; // Set kickable state
+        this.shellTimer = 0; // Reset shell timer
+        this.pendingPoly = 'disablePoly'; // 延後處理
+    }
+
+    private exitShell() {
+        this.isShell = false; // Convert back to koppa
+        this.kickable = false; // Reset kickable state
+        this.shellTimer = 0; // Reset shell timer
+        this.pendingPoly = 'enablePoly'; // 延後處理
     }
 
     protected move(dt: any): void {
@@ -108,20 +136,16 @@ export default class koppa extends enemy {
     protected playAnim(): void {
         super.playAnim();
 
-        if (this.isShell && this.kickable) {
-            if (!this.anim.getAnimationState("KoppaShell").isPlaying) {
+        if (this.isShell) {
+            const st = this.anim.getAnimationState("KoppaShell");
+            if (!st.isPlaying) {
                 this.anim.play("KoppaShell");
             }
-            else {
-                this.anim.pause("KoppaShell");
+            else if (this.kickable && !st.isPaused) {
+                st.pause();
             }
-        }
-        else if (this.isShell && !this.kickable) {
-            if (!this.anim.getAnimationState("KoppaShell").isPlaying) {
-                this.anim.play("KoppaShell");
-            }
-            else if (this.anim.getAnimationState("KoppaShell").isPaused) {
-                this.anim.resume("KoppaShell");
+            else if (!this.kickable && st.isPaused) {
+                st.resume();
             }
         }
         else {

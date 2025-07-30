@@ -173,32 +173,31 @@ export default class player extends cc.Component {
                 let isShell = other.getComponent("koppa").isShell;
                 let kickable = other.getComponent("koppa").kickable;
                 if (normalY < -0.71) {
+                    this.isJumping = true;
+                    this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
                     if (!isShell || (isShell && !kickable)) {
+                        cc.log("jump, hurt koppa");
                         this.gameMgr.enemyHurt(); // Player hurt the enemy
-                        this.isJumping = true;
-                        this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
                     }
-                    else if (isShell && kickable) {
-                        this.audioMgr.playShellKick();
+                    else {
+                        cc.log("jump, kick shell");
+                        this.gameMgr.shellKick(); // Player kicked the shell
                     }
+                    this.tempInvisible(0.2);
                 }
                 else if (Math.abs(normalX) > 0.71 && isShell && kickable) {
+                    cc.log("stand, kick shell");
                     this.audioMgr.playShellKick();
+                    this.tempInvisible(0.2);
                 }
                 else if (this.invisible == false) {
                     contact.disabled = true; // Disable contact to prevent further collisions
                     this.gameMgr.PlayerHurt(); // Player hurt by enemy
-                    this.invisible = true; // Make player invisible
                     if (this.gameMgr.getPlayerHealth() <= 0) {
                         this.isDead = true; // Player is dead
                         return; // Player is dead, no further actions
                     }
-                    this.scheduleOnce(() => {
-                        this.invisible = false; // Reset invisibility after 2 seconds
-                    }, 2);
-                    cc.tween(this.node)
-                        .blink(2, 10) // Blink effect to indicate player hurt
-                        .start();
+                    this.tempInvisible(2);
                 }
             }
         }
@@ -368,6 +367,18 @@ export default class player extends cc.Component {
 
         if (!this.anim.getAnimationState(animName).isPlaying) {
             this.anim.play(animName);
+        }
+    }
+
+    private tempInvisible(t: number) {
+        this.invisible = true; // Make player invisible
+        this.scheduleOnce(() => {
+            this.invisible = false; // Reset invisibility after t seconds
+        }, t);
+        if (t >= 0.5) {
+            cc.tween(this.node)
+                .blink(t, t * 5) // Blink effect to indicate player hurt
+                .start();
         }
     }
 }
