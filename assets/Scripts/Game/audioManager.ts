@@ -49,7 +49,7 @@ export default class audioManager extends cc.Component {
     enemyHurt: cc.AudioClip = null;
 
     @property(cc.AudioClip)
-    turtleKick: cc.AudioClip = null;
+    shellKick: cc.AudioClip = null;
 
     /**
      * Interaction audios
@@ -156,8 +156,8 @@ export default class audioManager extends cc.Component {
         cc.audioEngine.playEffect(this.enemyHurt, false);
     }
 
-    playTurtleKick() {
-        cc.audioEngine.playEffect(this.turtleKick, false);
+    playShellKick() {
+        cc.audioEngine.playEffect(this.shellKick, false);
     }
 
     /**

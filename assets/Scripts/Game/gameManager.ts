@@ -37,7 +37,6 @@ export default class gameManager extends cc.Component {
 
     onLoad () {
         cc.director.getPhysicsManager().enabled = true;
-        // cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
         cc.game.setFrameRate(59);
     }
 
@@ -263,6 +262,11 @@ export default class gameManager extends cc.Component {
 
     enemyHurt(): void {
         this.audioMgr.playEnemyHurt();
+        this.addScore(200);
+    }
+
+    shellKick(): void {
+        this.audioMgr.playShellKick();
         this.addScore(200);
     }
 }

@@ -1,4 +1,4 @@
-import gameManager from "./gameManager";
+import gameManager, { GameState } from "./gameManager";
 
 const {ccclass, property} = cc._decorator;
 
@@ -7,6 +7,9 @@ export default class uiManager extends cc.Component {
 
     private gameMgr: gameManager = null;
 
+    private loadingScreen: cc.Node = null;
+    private loadingStage: cc.Label = null;
+    private loadingLives: cc.Label = null;
     private timerLabel: cc.Label = null;
     private livesLabel: cc.Label = null;
     private coinsLabel: cc.Label = null;
@@ -19,6 +22,9 @@ export default class uiManager extends cc.Component {
     start () {
         this.gameMgr = cc.find("GameManager").getComponent("gameManager");
 
+        this.loadingScreen = cc.find("Canvas/UI/LoadingScreen");
+        this.loadingStage = cc.find("Canvas/UI/LoadingScreen/StageLabel").getComponent(cc.Label);
+        this.loadingLives = cc.find("Canvas/UI/LoadingScreen/Lives/Label").getComponent(cc.Label);
         this.timerLabel = cc.find("Canvas/UI/GameStates/Timer/Label").getComponent(cc.Label);
         this.livesLabel = cc.find("Canvas/UI/GameStates/Lives/Label").getComponent(cc.Label);
         this.coinsLabel = cc.find("Canvas/UI/GameStates/Coin/Label").getComponent(cc.Label);
@@ -26,6 +32,18 @@ export default class uiManager extends cc.Component {
     }
 
     update (dt) {
+        if (this.gameMgr.getGameState() == GameState.LOADING) {
+            this.loadingScreen.active = true;
+            // 取得當前場景名稱
+            const sceneName = cc.director.getScene().name; // 例如 "Stage1"
+            // 將 "Stage1" 轉換為 "Stage 1"
+            const formattedStage = sceneName.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+            this.loadingStage.string = formattedStage;
+            this.loadingLives.string = "x" + this.gameMgr.getLives().toString().padStart(2, '0');
+        } 
+        else {
+            this.loadingScreen.active = false;
+        }
         this.updateUI();
     }
 

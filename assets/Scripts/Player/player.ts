@@ -96,6 +96,12 @@ export default class player extends cc.Component {
         else if (event.keyCode == cc.macro.KEY.o) {
             this.gameMgr.collectMushroom();
         }
+        else if (event.keyCode == cc.macro.KEY["["]) {
+            cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
+        }
+        else if (event.keyCode == cc.macro.KEY["]"]) {
+            cc.director.getPhysicsManager().debugDrawFlags = 0; // Disable debug draw
+        }
     }
 
     onKeyUp(event) {
@@ -121,6 +127,7 @@ export default class player extends cc.Component {
     }
 
     onBeginContact(contact, self, other) {
+        let normalX = contact.getWorldManifold().normal.x;
         let normalY = contact.getWorldManifold().normal.y;
         cc.log("Normal:" + contact.getWorldManifold().normal + ", Other:", other.node.name);
 
@@ -138,27 +145,61 @@ export default class player extends cc.Component {
         }
         else if (other.node.group == "Enemy") {
             let enemyDead = other.getComponent(other.node.name).isDead;
-            if (normalY <= -0.71) {
-                if (enemyDead == false) {
-                    this.gameMgr.enemyHurt(); // Player hurt the enemy
-                    other.getComponent(other.node.name).isDead = true; // Mark enemy as dead
-                    this.isJumping = true;
-                    this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
+            if (other.node.name == "goomba") {
+                if (normalY < -0.71) {
+                    if (enemyDead == false) {
+                        this.gameMgr.enemyHurt(); // Player hurt the enemy
+                        other.getComponent("goomba").isDead = true; // Mark enemy as dead
+                        this.isJumping = true;
+                        this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
+                    }
+                }
+                else if (this.invisible == false) {
+                    this.gameMgr.PlayerHurt(); // Player hurt by enemy
+                    this.invisible = true; // Make player invisible
+                    if (this.gameMgr.getPlayerHealth() <= 0) {
+                        this.isDead = true; // Player is dead
+                        return; // Player is dead, no further actions
+                    }
+                    this.scheduleOnce(() => {
+                        this.invisible = false; // Reset invisibility after 2 seconds
+                    }, 2);
+                    cc.tween(this.node)
+                        .blink(2, 10) // Blink effect to indicate player hurt
+                        .start();
                 }
             }
-            else if (this.invisible == false) {
-                this.gameMgr.PlayerHurt(); // Player hurt by enemy
-                this.invisible = true; // Make player invisible
-                if (this.gameMgr.getPlayerHealth() <= 0) {
-                    this.isDead = true; // Player is dead
-                    return; // Player is dead, no further actions
+            else if (other.node.name == "koppa") {
+                let isShell = other.getComponent("koppa").isShell;
+                let kickable = other.getComponent("koppa").kickable;
+                if (normalY < -0.71) {
+                    if (!isShell || (isShell && !kickable)) {
+                        this.gameMgr.enemyHurt(); // Player hurt the enemy
+                        this.isJumping = true;
+                        this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
+                    }
+                    else if (isShell && kickable) {
+                        this.audioMgr.playShellKick();
+                    }
                 }
-                this.scheduleOnce(() => {
-                    this.invisible = false; // Reset invisibility after 2 seconds
-                }, 2);
-                cc.tween(this.node)
-                    .blink(2, 10) // Blink effect to indicate player hurt
-                    .start();
+                else if (Math.abs(normalX) > 0.71 && isShell && kickable) {
+                    this.audioMgr.playShellKick();
+                }
+                else if (this.invisible == false) {
+                    contact.disabled = true; // Disable contact to prevent further collisions
+                    this.gameMgr.PlayerHurt(); // Player hurt by enemy
+                    this.invisible = true; // Make player invisible
+                    if (this.gameMgr.getPlayerHealth() <= 0) {
+                        this.isDead = true; // Player is dead
+                        return; // Player is dead, no further actions
+                    }
+                    this.scheduleOnce(() => {
+                        this.invisible = false; // Reset invisibility after 2 seconds
+                    }, 2);
+                    cc.tween(this.node)
+                        .blink(2, 10) // Blink effect to indicate player hurt
+                        .start();
+                }
             }
         }
         else if (other.node.group == "Item") {

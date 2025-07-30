@@ -15,11 +15,12 @@ export default class enemy extends cc.Component {
     protected player: cc.Node = null;
 
     @property()
-    protected speed: number = 100; // Speed of the enemy movement
+    protected speed: number = 30; // Speed of the enemy movement
 
     protected direction: number = -1; // 1 for right, -1 for left
-    
+
     public isDead: boolean = false; // Flag to check if the enemy is dead
+    public dangerous: boolean = false; // Flag to check if the enemy is dangerous to other enemies
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -40,7 +41,7 @@ export default class enemy extends cc.Component {
         if (this.gameMgr.getGameState() == GameState.PLAYING) {
             const playerX = this.player.x;
             const screenHalfWidth = cc.winSize.width / 2;
-            let inRange = Math.abs(this.node.x - playerX) <= screenHalfWidth + 100;
+            let inRange = Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 50;
             if (inRange) {
                 this.move(dt);
                 this.playAnim();
@@ -49,22 +50,37 @@ export default class enemy extends cc.Component {
     }
 
     onBeginContact(contact, self, other) {
+        let normalX = contact.getWorldManifold().normal.x;
         if (other.node.group == "Void") {
             this.scheduleOnce(() => {
                 this.node.destroy();
             }, 0.5);
         } 
-        else if (other.node.group == "Enemy" || other.node.group == "Wall") {
-            let normalX = contact.getWorldManifold().normal.x;
-            if (normalX == 1 || normalX == -1) {
+        else if (other.node.group == "Wall") {
+            if (Math.abs(normalX) > 0.71) {
                 this.changeDirection(normalX);
             }
         }
+        else if (other.node.group == "Enemy") {
+            if (Math.abs(normalX) > 0.71) {
+                if (!this.dangerous) {
+                    this.changeDirection(normalX);
+                }
+                else {
+                    contact.disabled = true;
+                    this.gameMgr.shellKick();
+                    other.node.destroy();
+                }
+            }
+        }
         else if (other.node.group == "Player") {
-            let normalX = contact.getWorldManifold().normal.x;
-            let normalY = contact.getWorldManifold().normal.y;
-            if (normalX == 1 || normalX == -1) {
-                this.changeDirection(normalX);
+            if (Math.abs(normalX) > 0.71) {
+                if (!this.dangerous) {
+                    this.changeDirection(normalX);
+                }
+                else {
+                    contact.disabled = true;
+                }
             }
         }
     }
@@ -72,7 +88,7 @@ export default class enemy extends cc.Component {
     onPreSolve(contact, self, other)  {
         if (other.node.group == "Ground" || other.node.group == "Block") {
             let normalX = contact.getWorldManifold().normal.x;
-            if (normalX == 1 || normalX == -1) {
+            if (Math.abs(normalX) > 0.71) {
                 this.changeDirection(normalX);
             }
         }
@@ -80,11 +96,15 @@ export default class enemy extends cc.Component {
 
     protected move(dt) {
         this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
-        this.rb.gravityScale = 3; // Restore gravity
     }
 
     protected changeDirection(normalX: number) {
-        this.direction = normalX * -1; 
+        if (normalX > 0) {
+            this.direction = -1; // Change direction to left
+        }
+        else if (normalX < 0) {
+            this.direction = 1; // Change direction to right
+        }
     }
 
     protected playAnim() {

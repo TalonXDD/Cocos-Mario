@@ -22,14 +22,10 @@ export default class goomba extends enemy {
 
     onBeginContact(contact, self, other) {
         super.onBeginContact(contact, self, other);
-    }
-
-    onPreSolve(contact: any, self: any, other: any): void {
-        super.onPreSolve(contact, self, other);
 
         if (other.node.group == "Player") {
             let normalY = contact.getWorldManifold().normal.y;
-            if (normalY >= 0.71) {
+            if (normalY > 0.71) {
                 this.anim.play("goombaDead");
                 this.direction = 0; // Stop moving
                 this.scheduleOnce(() => {
@@ -37,5 +33,9 @@ export default class goomba extends enemy {
                 }, 0.3);
             }
         }
+    }
+
+    onPreSolve(contact: any, self: any, other: any): void {
+        super.onPreSolve(contact, self, other);
     }
 }

@@ -28,8 +28,10 @@ export default class qBlock extends block {
     // update (dt) {}
 
     onBeginContact(contact, self, other) {
+        let normalX = contact.getWorldManifold().normal.x;
         let normalY = contact.getWorldManifold().normal.y;
-        if ((other.node.group == "Player" && normalY == -1) || false) {
+        if ((other.node.group == "Player" && normalY == -1) || 
+            (other.node.group == "Enemy" && Math.abs(normalX) > 0.71 && other.getComponent(other.node.name).dangerous)) {
             this.audioMgr.playHardBrick();
             if (this.remainHit > 0) {
                 switch (this.qBlockType) {
