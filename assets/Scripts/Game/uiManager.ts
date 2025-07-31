@@ -22,13 +22,13 @@ export default class uiManager extends cc.Component {
     start () {
         this.gameMgr = cc.find("GameManager").getComponent("gameManager");
 
-        this.loadingScreen = cc.find("Canvas/UI/LoadingScreen");
-        this.loadingStage = cc.find("Canvas/UI/LoadingScreen/StageLabel").getComponent(cc.Label);
-        this.loadingLives = cc.find("Canvas/UI/LoadingScreen/Lives/Label").getComponent(cc.Label);
-        this.timerLabel = cc.find("Canvas/UI/GameStates/Timer/Label").getComponent(cc.Label);
-        this.livesLabel = cc.find("Canvas/UI/GameStates/Lives/Label").getComponent(cc.Label);
-        this.coinsLabel = cc.find("Canvas/UI/GameStates/Coin/Label").getComponent(cc.Label);
-        this.scoreLabel = cc.find("Canvas/UI/GameStates/Score/Label").getComponent(cc.Label);
+        this.loadingScreen = cc.find("GameUI/UI/LoadingScreen");
+        this.loadingStage = cc.find("GameUI/UI/LoadingScreen/StageLabel").getComponent(cc.Label);
+        this.loadingLives = cc.find("GameUI/UI/LoadingScreen/Lives/Label").getComponent(cc.Label);
+        this.timerLabel = cc.find("GameUI/UI/GameStates/Timer/Label").getComponent(cc.Label);
+        this.livesLabel = cc.find("GameUI/UI/GameStates/Lives/Label").getComponent(cc.Label);
+        this.coinsLabel = cc.find("GameUI/UI/GameStates/Coin/Label").getComponent(cc.Label);
+        this.scoreLabel = cc.find("GameUI/UI/GameStates/Score/Label").getComponent(cc.Label);
     }
 
     update (dt) {
