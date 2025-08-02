@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "Idle_s",
+  "_name": "idle_s",
   "_objFlags": 0,
   "_native": "",
   "_duration": 0.016666666666666666,
@@ -18,7 +18,37 @@
             }
           }
         ]
+      },
+      "cc.PhysicsBoxCollider": {
+        "size": [
+          {
+            "frame": 0,
+            "value": {
+              "__type__": "cc.Size",
+              "width": 12,
+              "height": 14
+            }
+          }
+        ],
+        "offset": [
+          {
+            "frame": 0,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": 0,
+              "y": -1
+            }
+          }
+        ]
       }
+    },
+    "props": {
+      "anchorY": [
+        {
+          "frame": 0,
+          "value": 0.5
+        }
+      ]
     }
   },
   "events": []

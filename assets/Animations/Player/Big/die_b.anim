@@ -1,9 +1,9 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "sneak_s",
+  "_name": "die_b",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.06666666666666667,
+  "_duration": 0.016666666666666666,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -14,13 +14,7 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "6f7a2871-74b3-4039-ac5e-600f264101c4"
-            }
-          },
-          {
-            "frame": 0.05,
-            "value": {
-              "__uuid__": "9690ec57-2660-4515-85fb-507696618add"
+              "__uuid__": "51f88942-56a2-4733-aee9-b2586ff97d16"
             }
           }
         ]
