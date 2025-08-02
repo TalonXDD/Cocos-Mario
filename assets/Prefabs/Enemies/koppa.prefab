@@ -253,7 +253,7 @@
     },
     "_enabled": true,
     "speed": 30,
-    "shellSpeed": 150,
+    "shellSpeed": 200,
     "shellTime": 15,
     "_id": ""
   },

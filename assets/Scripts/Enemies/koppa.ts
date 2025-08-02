@@ -121,15 +121,20 @@ export default class koppa extends enemy {
         this.pendingPoly = 'enablePoly'; // 延後處理
     }
 
-    protected move(dt: any): void {
-        if (this.isShell && this.kickable) {
-            this.rb.linearVelocity = cc.v2(0, this.rb.linearVelocity.y);
-        }
-        else if (this.isShell && !this.kickable) {
-            this.rb.linearVelocity = cc.v2(this.shellSpeed * this.direction, this.rb.linearVelocity.y);
+    protected move(inRange: boolean): void {
+        if (inRange) {
+            if (this.isShell && this.kickable) {
+                this.rb.linearVelocity = cc.v2(0, this.rb.linearVelocity.y);
+            }
+            else if (this.isShell && !this.kickable) {
+                this.rb.linearVelocity = cc.v2(this.shellSpeed * this.direction, this.rb.linearVelocity.y);
+            }
+            else {
+                this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
+            }
         }
         else {
-            this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
+            this.rb.linearVelocity = cc.v2(0, this.rb.linearVelocity.y);
         }
     }
 

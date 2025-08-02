@@ -17,6 +17,7 @@ export default class enemy extends cc.Component {
     @property()
     protected speed: number = 30; // Speed of the enemy movement
 
+    @property()
     protected direction: number = -1; // 1 for right, -1 for left
 
     public isDead: boolean = false; // Flag to check if the enemy is dead
@@ -41,11 +42,9 @@ export default class enemy extends cc.Component {
         if (this.gameMgr.getGameState() == GameState.PLAYING) {
             const playerX = this.player.x;
             const screenHalfWidth = cc.winSize.width / 2;
-            let inRange = Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 50;
-            if (inRange) {
-                this.move(dt);
-                this.playAnim();
-            }
+            let inRange = Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 120;
+            this.move(inRange);
+            this.playAnim();
         }
     }
 
@@ -94,8 +93,13 @@ export default class enemy extends cc.Component {
         }
     }
 
-    protected move(dt) {
-        this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
+    protected move(inRange: boolean) {
+        if (inRange) {
+            this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
+        }
+        else {
+            this.rb.linearVelocity = cc.v2(0, this.rb.linearVelocity.y);
+        }
     }
 
     protected changeDirection(normalX: number) {

@@ -38,14 +38,19 @@ export default class item extends cc.Component {
         if (!this.collectable) {
             return; 
         }
-        if (this.moveable) {
-            this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
-            this.rb.gravityScale = 3; // 恢復重力
-        }
         else {
-            this.rb.linearVelocity = cc.v2(0, 0);
-            this.rb.gravityScale = 0; // 停止重力
+            if (this.gameMgr.getGameState() == GameState.PLAYING) {
+                if (this.moveable) {
+                    this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
+                    this.rb.gravityScale = 3; // 恢復重力
+                }
+                else {
+                    this.rb.linearVelocity = cc.v2(0, 0);
+                    this.rb.gravityScale = 0; // 停止重力
+                }
+            }
         }
+        
     }
 
     onBeginContact(contact, self, other) {

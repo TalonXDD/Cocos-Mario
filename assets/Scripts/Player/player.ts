@@ -35,7 +35,7 @@ export default class player extends cc.Component {
     private isDead: boolean = false; // Player is dead
 
     // Animation properties
-    private jumpID: number = 1; // 1 for jump1_s, -1 for jump2_s
+    private jumpID: number = 1; // 1 for jump1, -1 for jump2
 
     // Other control variables
     private isSpaceDown: boolean = false;
@@ -95,6 +95,7 @@ export default class player extends cc.Component {
         }
         else if (event.keyCode == cc.macro.KEY.o) {
             this.gameMgr.collectMushroom();
+            this.changeBig(); // Change player size to big
         }
         else if (event.keyCode == cc.macro.KEY["["]) {
             cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
@@ -129,7 +130,7 @@ export default class player extends cc.Component {
     onBeginContact(contact, self, other) {
         let normalX = contact.getWorldManifold().normal.x;
         let normalY = contact.getWorldManifold().normal.y;
-        cc.log("Normal:" + contact.getWorldManifold().normal + ", Other:", other.node.name);
+        // cc.log("Normal:" + contact.getWorldManifold().normal + ", Other:", other.node.name);
 
         if (other.node.group == "Ground") { // Player is on the ground
             if (other.node.name == "Orange" && normalY != -1) { // One-Way platform
@@ -156,17 +157,12 @@ export default class player extends cc.Component {
                 }
                 else if (this.invisible == false) {
                     this.gameMgr.PlayerHurt(); // Player hurt by enemy
-                    this.invisible = true; // Make player invisible
                     if (this.gameMgr.getPlayerHealth() <= 0) {
                         this.isDead = true; // Player is dead
                         return; // Player is dead, no further actions
                     }
-                    this.scheduleOnce(() => {
-                        this.invisible = false; // Reset invisibility after 2 seconds
-                    }, 2);
-                    cc.tween(this.node)
-                        .blink(2, 10) // Blink effect to indicate player hurt
-                        .start();
+                    this.tempInvisible(2);
+                    this.changeSmall();
                 }
             }
             else if (other.node.name == "koppa") {
@@ -176,17 +172,14 @@ export default class player extends cc.Component {
                     this.isJumping = true;
                     this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
                     if (!isShell || (isShell && !kickable)) {
-                        cc.log("jump, hurt koppa");
                         this.gameMgr.enemyHurt(); // Player hurt the enemy
                     }
                     else {
-                        cc.log("jump, kick shell");
                         this.gameMgr.shellKick(); // Player kicked the shell
                     }
                     this.tempInvisible(0.2);
                 }
                 else if (Math.abs(normalX) > 0.71 && isShell && kickable) {
-                    cc.log("stand, kick shell");
                     this.audioMgr.playShellKick();
                     this.tempInvisible(0.2);
                 }
@@ -198,6 +191,7 @@ export default class player extends cc.Component {
                         return; // Player is dead, no further actions
                     }
                     this.tempInvisible(2);
+                    this.changeSmall();
                 }
             }
         }
@@ -208,6 +202,7 @@ export default class player extends cc.Component {
             }
             else if (other.node.name == "mushroom") {
                 this.gameMgr.collectMushroom();
+                this.changeBig();
             }
             else if (other.node.name == "mushroom1Up") {
                 this.gameMgr.collectMushroom1Up();
@@ -330,39 +325,46 @@ export default class player extends cc.Component {
 
         let animName = null;
         if (this.isDead) {
-            animName = "die_s";
+            animName = "die_";
         }
         else {
             let isMoving = this.isLeftDown || this.isRightDown
             if (this.isJumping) {
                 if (this.run) {
-                    animName = "jumpRun_s";
+                    animName = "jumpRun_";
                 }
                 else {
                     if (this.jumpID > 0) {
-                        animName = "jump1_s";
+                        animName = "jump1_";
                     }
                     else {
-                        animName = "jump2_s";
+                        animName = "jump2_";
                     }
                 }
             }
             else if (isMoving) {
                 if (this.run) {
                     if (this.rb.linearVelocity.x * this.direction < 0) {
-                        animName = "changeDir_s";
+                        animName = "changeDir_";
                     }
                     else {
-                        animName = "run_s";
+                        animName = "run_";
                     }
                 }
                 else {
-                    animName = "walk_s";
+                    animName = "walk_";
                 }
             }
             else {
-                animName = "idle_s";
+                animName = "idle_";
             }
+        }
+        let size = this.gameMgr.getPlayerHealth();
+        if (size <= 1) {
+            animName += "s";
+        }
+        else if (size == 2) {
+            animName += "b";
         }
 
         if (!this.anim.getAnimationState(animName).isPlaying) {
@@ -380,5 +382,18 @@ export default class player extends cc.Component {
                 .blink(t, t * 5) // Blink effect to indicate player hurt
                 .start();
         }
+    }
+
+    changeSmall() {
+        this.node.anchorY = 0.5;
+        this.getComponent(cc.PhysicsBoxCollider).size = cc.size(12, 14);
+        this.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(0, -1);
+    }
+
+    changeBig() {
+        this.node.anchorY = 0.25;
+        this.getComponent(cc.PhysicsBoxCollider).size = cc.size(12, 26);
+        this.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(0, 5);
+        this.tempInvisible(1);
     }
 }
