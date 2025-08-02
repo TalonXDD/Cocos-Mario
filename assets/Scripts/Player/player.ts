@@ -94,8 +94,10 @@ export default class player extends cc.Component {
             this.isShiftDown = true;
         }
         else if (event.keyCode == cc.macro.KEY.o) {
+            if (this.gameMgr.getPlayerHealth() == 1) {
+                this.changeBig(); // Change player size to big
+            }
             this.gameMgr.collectMushroom();
-            this.changeBig(); // Change player size to big
         }
         else if (event.keyCode == cc.macro.KEY["["]) {
             cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
@@ -159,9 +161,11 @@ export default class player extends cc.Component {
                     this.gameMgr.PlayerHurt(); // Player hurt by enemy
                     if (this.gameMgr.getPlayerHealth() <= 0) {
                         this.isDead = true; // Player is dead
+                        this.deadMovingAnim();
+                        this.tempInvisible(3, false);
                         return; // Player is dead, no further actions
                     }
-                    this.tempInvisible(2);
+                    this.tempInvisible(2, true);
                     this.changeSmall();
                 }
             }
@@ -177,20 +181,22 @@ export default class player extends cc.Component {
                     else {
                         this.gameMgr.shellKick(); // Player kicked the shell
                     }
-                    this.tempInvisible(0.2);
+                    this.tempInvisible(0.2, false);
                 }
                 else if (Math.abs(normalX) > 0.71 && isShell && kickable) {
                     this.audioMgr.playShellKick();
-                    this.tempInvisible(0.2);
+                    this.tempInvisible(0.2, false);
                 }
                 else if (this.invisible == false) {
                     contact.disabled = true; // Disable contact to prevent further collisions
                     this.gameMgr.PlayerHurt(); // Player hurt by enemy
                     if (this.gameMgr.getPlayerHealth() <= 0) {
                         this.isDead = true; // Player is dead
+                        this.deadMovingAnim();
+                        this.tempInvisible(3, false);
                         return; // Player is dead, no further actions
                     }
-                    this.tempInvisible(2);
+                    this.tempInvisible(2, true);
                     this.changeSmall();
                 }
             }
@@ -201,8 +207,10 @@ export default class player extends cc.Component {
                 other.getComponent("coin").createCollectEffect();
             }
             else if (other.node.name == "mushroom") {
+                if (this.gameMgr.getPlayerHealth() == 1) {
+                    this.changeBig(); // Change player size to big
+                }
                 this.gameMgr.collectMushroom();
-                this.changeBig();
             }
             else if (other.node.name == "mushroom1Up") {
                 this.gameMgr.collectMushroom1Up();
@@ -225,9 +233,11 @@ export default class player extends cc.Component {
         else if (other.node.group == "Pole") { // TODO
             this.gameMgr.playerWon();
         }
-        else if (other.node.group == "VoidPlayer") { // TODO
-            this.isDead = true; // Player is dead
+        else if (other.node.group == "VoidPlayer") {
             this.gameMgr.playerDied();
+            this.isDead = true; // Player is dead
+            this.deadMovingAnim();
+            this.tempInvisible(3, false);
         }
 
         this.contact = contact; // Store contact for later use
@@ -252,6 +262,15 @@ export default class player extends cc.Component {
     }
 
     updateMovement(dt) {
+        // Direction handling
+        if (this.direction == 1) {
+            this.node.scaleX = Math.abs(this.node.scaleX);
+        }
+        else if (this.direction == -1) {
+            this.node.scaleX = -Math.abs(this.node.scaleX);
+        }
+
+        
         let xspeed = this.rb.linearVelocity.x;
         let yspeed = this.rb.linearVelocity.y;
 
@@ -316,13 +335,6 @@ export default class player extends cc.Component {
     }
 
     playAnimation() {
-        if (this.direction == 1) {
-            this.node.scaleX = Math.abs(this.node.scaleX);
-        }
-        else if (this.direction == -1) {
-            this.node.scaleX = -Math.abs(this.node.scaleX);
-        }
-
         let animName = null;
         if (this.isDead) {
             animName = "die_";
@@ -372,12 +384,12 @@ export default class player extends cc.Component {
         }
     }
 
-    private tempInvisible(t: number) {
+    private tempInvisible(t: number, blink: boolean) {
         this.invisible = true; // Make player invisible
         this.scheduleOnce(() => {
             this.invisible = false; // Reset invisibility after t seconds
         }, t);
-        if (t >= 0.5) {
+        if (blink) {
             cc.tween(this.node)
                 .blink(t, t * 5) // Blink effect to indicate player hurt
                 .start();
@@ -394,6 +406,16 @@ export default class player extends cc.Component {
         this.node.anchorY = 0.25;
         this.getComponent(cc.PhysicsBoxCollider).size = cc.size(12, 26);
         this.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(0, 5);
-        this.tempInvisible(1);
+        this.tempInvisible(1, true);
+    }
+
+    deadMovingAnim() {
+        this.rb.linearVelocity = cc.v2(0, 0); // Stop player movement
+        this.rb.gravityScale = 0; // Disable gravity
+        this.scheduleOnce(() => {
+            this.getComponent(cc.PhysicsBoxCollider).enabled = false; 
+            this.rb.gravityScale = 3;
+            this.rb.linearVelocity = cc.v2(0, this.jumpSpeed);
+        }, 0.5);
     }
 }

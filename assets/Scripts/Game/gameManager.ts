@@ -8,8 +8,9 @@ export enum GameState {
     START,
     PLAYING,
     PAUSED,
-    GAME_OVER,
-    WIN
+    DIED,
+    WIN,
+    GAMEOVER,
 }
 
 @ccclass
@@ -32,6 +33,8 @@ export default class gameManager extends cc.Component {
     private coins: number = 0;
     private lives: number = 5; // Player lives  
     private playerHealth: number = 1; // Player health, 1 for small, 2 for big
+
+    private callOnce: boolean = false; // Flag to ensure certain actions are called only once
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -61,8 +64,23 @@ export default class gameManager extends cc.Component {
                 cc.log("Warning: Time is running out!");
             }
             if (this.getTimer() <= 0) {
-                this.setGameState(GameState.GAME_OVER);
+                this.setGameState(GameState.DIED);
                 cc.log("Game Over! Time's up!");
+            }
+        }
+        else if (this.getGameState() == GameState.DIED) {
+            if (this.callOnce) {
+                if (this.getLives() <= 0) {
+                    this.setGameState(GameState.GAMEOVER);
+                }
+                else {
+                    this.scheduleOnce(() => {
+                        this.setPlayerHealth(1); // Reset player health to small
+                        this.SaveGameData();
+                        cc.director.loadScene(cc.director.getScene().name);
+                    }, 2.5);
+                }
+                this.callOnce = false; // Reset flag after handling
             }
         }
     }
@@ -74,7 +92,7 @@ export default class gameManager extends cc.Component {
         gameData.score = this.getScore();
         gameData.coins = this.getCoins();
         gameData.lives = this.getLives();
-        gameData.playerHealth = this.getPlayerHealth();
+        gameData.playerHealth = (this.getPlayerHealth() <= 0) ? 1 : this.getPlayerHealth(); // Ensure health is at least 1
         cc.log("Game Data Saved: ");
         cc.log("Score: " + gameData.score);
         cc.log("Coins: " + gameData.coins); 
@@ -83,15 +101,11 @@ export default class gameManager extends cc.Component {
     }
 
     LoadGameData() {
+        cc.log("Game Data Loaded: ");
         this.setScore(gameData.score);
         this.setCoins(gameData.coins);
         this.setLives(gameData.lives);
         this.setPlayerHealth(gameData.playerHealth);
-        cc.log("Game Data Loaded: ");
-        cc.log("Score: " + gameData.score);
-        cc.log("Coins: " + gameData.coins);
-        cc.log("Lives: " + gameData.lives);
-        cc.log("Player Health: " + gameData.playerHealth);
     }
 
     /**
@@ -128,6 +142,7 @@ export default class gameManager extends cc.Component {
             value = this.maxScore; // Cap score at maxScore
         }
         this.score = value;
+        cc.log("Set Score: " + this.score);
     }
 
     getCoins(): number {
@@ -142,6 +157,7 @@ export default class gameManager extends cc.Component {
             value = this.maxCoins; // Cap coins at maxCoins
         }
         this.coins = value;
+        cc.log("Set Coins: " + this.coins);
     }
 
     getLives(): number {
@@ -156,6 +172,7 @@ export default class gameManager extends cc.Component {
             value = this.maxLives; // Cap lives at maxLives
         }
         this.lives = value;
+        cc.log("Set Lives: " + this.lives);
     }
 
     getPlayerHealth(): number {
@@ -170,6 +187,7 @@ export default class gameManager extends cc.Component {
             value = 2; // Cap health at 2 (small or big)
         }
         this.playerHealth = value;
+        cc.log("Set Player Health: " + this.playerHealth);
     }
 
     /**
@@ -217,22 +235,29 @@ export default class gameManager extends cc.Component {
         this.setPlayerHealth(this.getPlayerHealth() - 1);
         if (this.getPlayerHealth() >= 1) {
             this.audioMgr.playChangeSmall();
+            cc.log("Player Hurt!");
         }
         else if (this.getPlayerHealth() <= 0) {
             this.playerDied();
         } 
-        cc.log("Player Hurt! Current Health: " + this.getPlayerHealth());
     }
 
     playerDied(): void {
         this.audioMgr.playDead();
-        this.setGameState(GameState.GAME_OVER);
-        cc.log("Player Died! Game Over!");
+        this.setLives(this.getLives() - 1);
+        this.setGameState(GameState.DIED);
+        this.callOnce = true; // Set flag to prevent multiple calls
+        cc.log("Player Died!");
     }
 
     playerWon(): void {
         this.setGameState(GameState.WIN);
         cc.log("Player Won! Congratulations!");
+    }
+
+    gameOver(): void {
+        this.audioMgr.playGameOver();
+        cc.log("Player has no lives left. Game Over!");
     }
 
     collectCoin(): void {
