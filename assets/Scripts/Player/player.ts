@@ -99,6 +99,9 @@ export default class player extends cc.Component {
             }
             this.gameMgr.collectMushroom();
         }
+        else if (event.keyCode == cc.macro.KEY.p) {
+            this.gameMgr.setTimer(this.gameMgr.getTimer() - 10);
+        }
         else if (event.keyCode == cc.macro.KEY["["]) {
             cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
         }
@@ -149,7 +152,7 @@ export default class player extends cc.Component {
         else if (other.node.group == "Enemy") {
             let enemyDead = other.getComponent(other.node.name).isDead;
             if (other.node.name == "goomba") {
-                if (normalY < -0.71) {
+                if (normalY < -0.6) {
                     if (enemyDead == false) {
                         this.gameMgr.enemyHurt(); // Player hurt the enemy
                         other.getComponent("goomba").isDead = true; // Mark enemy as dead
@@ -172,7 +175,7 @@ export default class player extends cc.Component {
             else if (other.node.name == "koppa") {
                 let isShell = other.getComponent("koppa").isShell;
                 let kickable = other.getComponent("koppa").kickable;
-                if (normalY < -0.71) {
+                if (normalY < -0.6) {
                     this.isJumping = true;
                     this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
                     if (!isShell || (isShell && !kickable)) {
@@ -230,8 +233,10 @@ export default class player extends cc.Component {
                 this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
             }
         }
-        else if (other.node.group == "Pole") { // TODO
-            this.gameMgr.playerWon();
+        else if (other.node.group == "Pole") {
+            if (other.tag == "1") {
+                this.gameMgr.playerWon();
+            }
         }
         else if (other.node.group == "VoidPlayer") {
             this.gameMgr.playerDied();

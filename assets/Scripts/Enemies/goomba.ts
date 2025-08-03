@@ -25,7 +25,7 @@ export default class goomba extends enemy {
 
         if (other.node.group == "Player") {
             let normalY = contact.getWorldManifold().normal.y;
-            if (normalY > 0.71) {
+            if (normalY > 0.6) {
                 this.anim.play("goombaDead");
                 this.direction = 0; // Stop moving
                 this.scheduleOnce(() => {

@@ -63,7 +63,7 @@ export default class koppa extends enemy {
 
         if (other.node.group == "Player") {
             const n = contact.getWorldManifold().normal;
-            if (n.y > 0.71) {
+            if (n.y > 0.6) {
                 if (!this.isShell) {
                     this.enterShell(); // Convert to shell
                 }
@@ -101,7 +101,7 @@ export default class koppa extends enemy {
 
         if (other.node.group == "Ground" || other.node.group == "Wall") {
             let normalX = contact.getWorldManifold().normal.x;
-            if (Math.abs(normalX) > 0.71) {
+            if (Math.abs(normalX) > 0.71 && this.isShell) {
                 this.audioMgr.playHardBrick();
             }
         }

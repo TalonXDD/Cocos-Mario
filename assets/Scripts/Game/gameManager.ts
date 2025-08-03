@@ -64,8 +64,7 @@ export default class gameManager extends cc.Component {
                 cc.log("Warning: Time is running out!");
             }
             if (this.getTimer() <= 0) {
-                this.setGameState(GameState.DIED);
-                cc.log("Game Over! Time's up!");
+                this.playerDied();
             }
         }
         else if (this.getGameState() == GameState.DIED) {

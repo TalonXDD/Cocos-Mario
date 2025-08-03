@@ -42,7 +42,7 @@ export default class enemy extends cc.Component {
         if (this.gameMgr.getGameState() == GameState.PLAYING || this.gameMgr.getGameState() == GameState.DIED) {
             const playerX = this.player.x;
             const screenHalfWidth = cc.winSize.width / 2;
-            let inRange = Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 120;
+            let inRange = (Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 120) || playerX < screenHalfWidth || playerX > 5280;
             this.move(inRange);
             this.playAnim();
         }
