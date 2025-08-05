@@ -36,6 +36,7 @@ export default class player extends cc.Component {
 
     // Animation properties
     private jumpID: number = 1; // 1 for jump1, -1 for jump2
+    private playOnce: boolean = false; 
 
     // Other control variables
     private isSpaceDown: boolean = false;
@@ -66,10 +67,11 @@ export default class player extends cc.Component {
     }
 
     update (dt) {
-        if (this.gameMgr.getGameState() == GameState.PLAYING) {
+        const gs = this.gameMgr.getGameState();
+        if (gs == GameState.PLAYING) {
             this.updateMovement(dt);
         }
-        this.playAnimation();
+        this.playAnimation(this.playOnce);
     }
 
     onKeyDown(event) {
@@ -92,6 +94,10 @@ export default class player extends cc.Component {
         }
         else if (event.keyCode == cc.macro.KEY.shift) {
             this.isShiftDown = true;
+        }
+        // Debugging controls
+        else if (event.keyCode == cc.macro.KEY.i) {
+            this.node.position = cc.v3(2000, 92, 0);
         }
         else if (event.keyCode == cc.macro.KEY.o) {
             if (this.gameMgr.getPlayerHealth() == 1) {
@@ -235,6 +241,8 @@ export default class player extends cc.Component {
         }
         else if (other.node.group == "Pole") {
             if (other.tag == "1") {
+                this.rb.gravityScale = 0; 
+                this.rb.linearVelocity = cc.v2(0, -200);
                 this.gameMgr.playerWon();
             }
         }
@@ -339,9 +347,17 @@ export default class player extends cc.Component {
         this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, 0); // Reset vertical velocity
     }
 
-    playAnimation() {
+    playAnimation(playOnce: boolean) {
+        if (playOnce) {
+            return;
+        }
+
         let animName = null;
-        if (this.isDead) {
+        if (this.gameMgr.startPlayerWinAnim) {
+            animName = "win_";
+            this.playOnce = true; // Prevent further animations after winning
+        }
+        else if (this.isDead) {
             animName = "die_";
         }
         else {

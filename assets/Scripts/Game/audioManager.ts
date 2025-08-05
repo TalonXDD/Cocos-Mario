@@ -15,6 +15,15 @@ export default class audioManager extends cc.Component {
     @property(cc.AudioClip) // BGM
     hurryUp: cc.AudioClip = null;
 
+    @property(cc.AudioClip)
+    goalFlag: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    time2Score: cc.AudioClip = null; 
+
+    @property(cc.AudioClip)
+    time2ScoreDone: cc.AudioClip = null;
+
     @property(cc.AudioClip) // BGM
     win: cc.AudioClip = null;
 
@@ -39,7 +48,7 @@ export default class audioManager extends cc.Component {
     @property(cc.AudioClip)
     changeSmall: cc.AudioClip = null;
 
-    @property(cc.AudioClip) // BGM
+    @property(cc.AudioClip)
     livesLoss: cc.AudioClip = null;
 
     /**
@@ -99,6 +108,10 @@ export default class audioManager extends cc.Component {
         cc.audioEngine.stopMusic();
     }
 
+    stopEffect() {
+        cc.audioEngine.stopAllEffects();
+    }
+
     playHurryUp()   {
         const id = cc.audioEngine.playMusic(this.hurryUp, false);
         cc.audioEngine.setFinishCallback(id, () => {
@@ -108,8 +121,20 @@ export default class audioManager extends cc.Component {
         });
     }
 
+    playGoalFlag(): number {
+        return cc.audioEngine.playEffect(this.goalFlag, false);
+    }
+
     playWin() {
         cc.audioEngine.playMusic(this.win, false);
+    }
+
+    playTime2Score() {
+        cc.audioEngine.playEffect(this.time2Score, true);
+    }
+
+    playTime2ScoreDone() {
+        cc.audioEngine.playEffect(this.time2ScoreDone, false);
     }
 
     playGameOver() {
@@ -146,7 +171,7 @@ export default class audioManager extends cc.Component {
     }
 
     playDead() { 
-        cc.audioEngine.playMusic(this.livesLoss, false); 
+        cc.audioEngine.playEffect(this.livesLoss, false); 
     }
 
     /**

@@ -25,8 +25,6 @@ export default class brick extends block {
 
     start () {
         super.start();
-
-        this.remainHit = 1; // Reset hit count for brick
     }
 
     // update (dt) {}

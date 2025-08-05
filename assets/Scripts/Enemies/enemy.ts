@@ -39,10 +39,11 @@ export default class enemy extends cc.Component {
     }
 
     update (dt) {
-        if (this.gameMgr.getGameState() == GameState.PLAYING || this.gameMgr.getGameState() == GameState.DIED) {
+        const gs = this.gameMgr.getGameState();
+        if (gs == GameState.PLAYING || gs == GameState.DIED) {
             const playerX = this.player.x;
             const screenHalfWidth = cc.winSize.width / 2;
-            let inRange = (Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 120) || playerX < screenHalfWidth || playerX > 5280;
+            let inRange = (Math.abs((this.node.x - playerX) * 1.125) <= screenHalfWidth + 120) || playerX < -2640 || playerX > 2640;
             this.move(inRange);
             this.playAnim();
         }
@@ -61,15 +62,13 @@ export default class enemy extends cc.Component {
             }
         }
         else if (other.node.group == "Enemy") {
-            if (Math.abs(normalX) > 0.71) {
-                if (!this.dangerous) {
-                    this.changeDirection(normalX);
-                }
-                else {
-                    contact.disabled = true;
-                    this.gameMgr.shellKick();
-                    other.node.destroy();
-                }
+            if (this.dangerous) {
+                contact.disabled = true; // Disable contact to prevent further interactions
+                this.gameMgr.shellKick();
+                other.node.destroy(); // Destroy the other enemy
+            }
+            else if (Math.abs(normalX) > 0.71) {
+                this.changeDirection(normalX);
             }
         }
         else if (other.node.group == "Player") {

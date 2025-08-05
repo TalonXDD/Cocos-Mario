@@ -48,7 +48,7 @@ export default class uiManager extends cc.Component {
     }
 
     updateUI() {
-        this.timerLabel.string = Math.ceil(this.gameMgr.getTimer()).toString();
+        this.timerLabel.string = Math.ceil(this.gameMgr.getTimer()).toString().padStart(3, '0');
         this.livesLabel.string = "x" + this.gameMgr.getLives().toString().padStart(2, '0');
         this.coinsLabel.string = this.gameMgr.getCoins().toString().padStart(2, '0');
         this.scoreLabel.string = this.gameMgr.getScore().toString().padStart(8, '0');

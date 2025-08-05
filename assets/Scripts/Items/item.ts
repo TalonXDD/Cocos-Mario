@@ -39,7 +39,8 @@ export default class item extends cc.Component {
             return; 
         }
         else {
-            if (this.gameMgr.getGameState() == GameState.PLAYING || this.gameMgr.getGameState() == GameState.DIED) {
+            const gs = this.gameMgr.getGameState();
+            if (gs == GameState.PLAYING || gs == GameState.DIED) {
                 if (this.moveable) {
                     this.rb.linearVelocity = cc.v2(this.speed * this.direction, this.rb.linearVelocity.y);
                     this.rb.gravityScale = 3; // 恢復重力

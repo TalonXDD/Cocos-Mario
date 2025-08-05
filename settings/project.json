@@ -11,7 +11,8 @@
     "Void",
     "Wall",
     "UI",
-    "VoidPlayer"
+    "VoidPlayer",
+    "Background"
   ],
   "collision-matrix": [
     [
@@ -113,6 +114,20 @@
       false,
       false,
       true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
       false,
       false,
       false,

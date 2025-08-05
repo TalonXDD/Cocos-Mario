@@ -33,8 +33,14 @@ export default class gameManager extends cc.Component {
     private coins: number = 0;
     private lives: number = 5; // Player lives  
     private playerHealth: number = 1; // Player health, 1 for small, 2 for big
+    public startPlayerWinAnim: boolean = false;
 
     private callOnce: boolean = false; // Flag to ensure certain actions are called only once
+
+    private t2sActive: boolean = false; // Flag to check if time2Score is active
+    private t2sTimer: number = 0; // Timer for time2Score
+    private t2sInterval: number = 1/5000; // Interval for time2Score callback
+    private t2sRepeat: number = 0; // Repeat count for time2Score
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -47,9 +53,7 @@ export default class gameManager extends cc.Component {
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
 
         this.resetGame();
-        // Show loading screen or splash screen
-        // TODO...
-        // 
+        
         this.scheduleOnce(() => {
             this.startGame();
         }, 2); // Start the game after 2 seconds
@@ -57,7 +61,7 @@ export default class gameManager extends cc.Component {
 
     update (dt) {
         if (this.getGameState() == GameState.PLAYING) {
-            this.setTimer(this.getTimer() - dt * 1.25);
+            this.setTimer(this.getTimer() - dt * 1.333);
             if (this.getTimer() <= 100 && !this.warning) {
                 this.warning = true;
                 this.audioMgr.playHurryUp();
@@ -80,6 +84,38 @@ export default class gameManager extends cc.Component {
                     }, 2.5);
                 }
                 this.callOnce = false; // Reset flag after handling
+            }
+        }
+        else if (this.getGameState() == GameState.WIN) {
+            if (this.callOnce) {
+                this.audioMgr.stopBGM();
+                const id = this.audioMgr.playGoalFlag();
+                cc.audioEngine.setFinishCallback(id, () => {
+                    this.audioMgr.playWin();
+                    this.startPlayerWinAnim = true;
+                    this.scheduleOnce(() => {
+                        this.time2Score();
+                    }, 3.5);
+                });
+                this.callOnce = false;
+            }
+            if (this.t2sActive) {
+                this.t2sTimer += dt;
+                if (this.t2sTimer >= this.t2sInterval) {
+                    this.t2sTimer -= this.t2sInterval;
+                    this.setTimer(this.getTimer() - 1);
+                    this.addScore(50);
+                    this.t2sRepeat--;
+                    if (this.t2sRepeat <= 0) {
+                        this.t2sActive = false;
+                        this.audioMgr.stopEffect();
+                        this.audioMgr.playTime2ScoreDone();
+                        this.scheduleOnce(() => {
+                            this.SaveGameData();
+                            cc.director.loadScene("StageSelect");
+                        }, 1);
+                    }
+                }
             }
         }
     }
@@ -105,6 +141,10 @@ export default class gameManager extends cc.Component {
         this.setCoins(gameData.coins);
         this.setLives(gameData.lives);
         this.setPlayerHealth(gameData.playerHealth);
+        cc.log("Score: " + this.getScore());
+        cc.log("Coins: " + this.getCoins());
+        cc.log("Lives: " + this.getLives());
+        cc.log("Player Health: " + this.getPlayerHealth());
     }
 
     /**
@@ -117,7 +157,6 @@ export default class gameManager extends cc.Component {
 
     setTimer(value: number): void {
         this.timer = value;
-        // cc.log("Set Timer: " + this.timer);
     }
 
     getGameState(): GameState {
@@ -141,7 +180,6 @@ export default class gameManager extends cc.Component {
             value = this.maxScore; // Cap score at maxScore
         }
         this.score = value;
-        cc.log("Set Score: " + this.score);
     }
 
     getCoins(): number {
@@ -156,7 +194,6 @@ export default class gameManager extends cc.Component {
             value = this.maxCoins; // Cap coins at maxCoins
         }
         this.coins = value;
-        cc.log("Set Coins: " + this.coins);
     }
 
     getLives(): number {
@@ -171,7 +208,6 @@ export default class gameManager extends cc.Component {
             value = this.maxLives; // Cap lives at maxLives
         }
         this.lives = value;
-        cc.log("Set Lives: " + this.lives);
     }
 
     getPlayerHealth(): number {
@@ -186,7 +222,6 @@ export default class gameManager extends cc.Component {
             value = 2; // Cap health at 2 (small or big)
         }
         this.playerHealth = value;
-        cc.log("Set Player Health: " + this.playerHealth);
     }
 
     /**
@@ -209,7 +244,7 @@ export default class gameManager extends cc.Component {
 
     addScore(value: number): void {
         this.setScore(this.getScore() + value);
-        cc.log("Score - Add: " + value + ", Current: " + this.getScore());
+        cc.log("Score - Add: " + value);
     }
 
     addCoins(value: number): void {
@@ -222,12 +257,12 @@ export default class gameManager extends cc.Component {
             }
         }
         this.setCoins(result);
-        cc.log("Coins - Add: " + value + ", Current: " + this.getCoins());
+        cc.log("Coins - Add: " + value);
     }
 
     addLives(value: number): void {
         this.setLives(this.getLives() + value);
-        cc.log("Lives - Add: " + value + ", Current: " + this.getLives());
+        cc.log("Lives - Add: " + value);
     }
 
     PlayerHurt(): void {
@@ -242,6 +277,7 @@ export default class gameManager extends cc.Component {
     }
 
     playerDied(): void {
+        this.audioMgr.stopBGM();
         this.audioMgr.playDead();
         this.setLives(this.getLives() - 1);
         this.setGameState(GameState.DIED);
@@ -251,6 +287,7 @@ export default class gameManager extends cc.Component {
 
     playerWon(): void {
         this.setGameState(GameState.WIN);
+        this.callOnce = true; 
         cc.log("Player Won! Congratulations!");
     }
 
@@ -292,5 +329,12 @@ export default class gameManager extends cc.Component {
     shellKick(): void {
         this.audioMgr.playShellKick();
         this.addScore(200);
+    }
+
+    time2Score(): void {
+        this.audioMgr.playTime2Score();
+        this.t2sActive = true;
+        this.t2sTimer = 0; // Reset timer for time2Score
+        this.t2sRepeat = Math.ceil(this.getTimer());
     }
 }
