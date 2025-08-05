@@ -240,7 +240,12 @@ export default class player extends cc.Component {
             }
         }
         else if (other.node.group == "Pole") {
-            if (other.tag == "1") {
+            if (other.tag == "0") {
+                if (normalY == -1) {
+                    this.resetJump();
+                }
+            }
+            else if (other.tag == "1") {
                 this.rb.gravityScale = 0; 
                 this.rb.linearVelocity = cc.v2(0, -200);
                 this.gameMgr.playerWon();

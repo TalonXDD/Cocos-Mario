@@ -1,3 +1,5 @@
+import gameData from "../Game/gameData";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -18,12 +20,20 @@ export default class stageSelectManager extends cc.Component {
     @property(cc.AudioClip)
     quitSE: cc.AudioClip = null;
 
+    private livesLabel: cc.Label = null;
+    private coinsLabel: cc.Label = null;
+    private scoreLabel: cc.Label = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
         cc.audioEngine.playMusic(this.BGM, true);
+        this.livesLabel = cc.find("Canvas/UI/Lives/Label").getComponent(cc.Label);
+        this.coinsLabel = cc.find("Canvas/UI/Coin/Label").getComponent(cc.Label);
+        this.scoreLabel = cc.find("Canvas/UI/Score/Label").getComponent(cc.Label);
+        this.updateUI();
     }
 
     // update (dt) {}
@@ -56,5 +66,11 @@ export default class stageSelectManager extends cc.Component {
 
     playQuitSE() {
         cc.audioEngine.playEffect(this.quitSE, false);
+    }
+
+    updateUI() {
+        this.livesLabel.string = "x" + gameData.lives.toString().padStart(2, '0');
+        this.coinsLabel.string = gameData.coins.toString().padStart(2, '0');
+        this.scoreLabel.string = gameData.score.toString().padStart(8, '0');
     }
 }
