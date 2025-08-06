@@ -1,3 +1,4 @@
+import gameData from "../Game/gameData";
 import stageSelectManager from "./stageSelectManager";
 
 const {ccclass, property} = cc._decorator;
@@ -22,6 +23,9 @@ export default class stageSelectBtn extends cc.Component {
         btn.component = "stageSelectBtn";
         btn.handler = "onClick";
         this.getComponent(cc.Button).clickEvents.push(btn);
+        if (this.goStage.name == "Stage2" && !gameData.stage1Cleared) {
+            this.getComponent(cc.Button).interactable = false; // Disable button if Stage 1 is not cleared
+        }
     }
 
     // update (dt) {}

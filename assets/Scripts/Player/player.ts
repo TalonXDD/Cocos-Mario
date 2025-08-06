@@ -93,24 +93,24 @@ export default class player extends cc.Component {
             this.isShiftDown = true;
         }
         // Debugging controls
-        else if (event.keyCode == cc.macro.KEY.i) {
-            this.node.setPosition(2200, 92);
-        }
-        else if (event.keyCode == cc.macro.KEY.o) {
-            if (this.gameMgr.getPlayerHealth() == 1) {
-                this.changeBig(); // Change player size to big
-            }
-            this.gameMgr.collectMushroom();
-        }
-        else if (event.keyCode == cc.macro.KEY.p) {
-            this.gameMgr.setTimer(this.gameMgr.getTimer() - 10);
-        }
-        else if (event.keyCode == cc.macro.KEY["["]) {
-            cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
-        }
-        else if (event.keyCode == cc.macro.KEY["]"]) {
-            cc.director.getPhysicsManager().debugDrawFlags = 0; // Disable debug draw
-        }
+        // else if (event.keyCode == cc.macro.KEY.i) {
+        //     this.node.setPosition(2200, 92);
+        // }
+        // else if (event.keyCode == cc.macro.KEY.o) {
+        //     if (this.gameMgr.getPlayerHealth() == 1) {
+        //         this.changeBig(); // Change player size to big
+        //     }
+        //     this.gameMgr.collectMushroom();
+        // }
+        // else if (event.keyCode == cc.macro.KEY.p) {
+        //     this.gameMgr.setTimer(this.gameMgr.getTimer() - 10);
+        // }
+        // else if (event.keyCode == cc.macro.KEY["["]) {
+        //     cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit | cc.PhysicsManager.DrawBits.e_shapeBit;
+        // }
+        // else if (event.keyCode == cc.macro.KEY["]"]) {
+        //     cc.director.getPhysicsManager().debugDrawFlags = 0; // Disable debug draw
+        // }
     }
 
     onKeyUp(event) {

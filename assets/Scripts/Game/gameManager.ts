@@ -23,7 +23,7 @@ export default class gameManager extends cc.Component {
     private timer: number = 0;
     private warning: boolean = false;
     private gameState: GameState = GameState.LOADING;
-    private initTimer: number = 300; // Initial timer value
+    private initTimer: number = 400; // Initial timer value
     private maxScore: number = 99999999; // Maximum score limit
     private maxCoins: number = 99;
     private maxLives: number = 99;
@@ -85,6 +85,12 @@ export default class gameManager extends cc.Component {
             if (this.callOnce) {
                 this.audioMgr.stopBGM();
                 const id = this.audioMgr.playGoalFlag();
+                if (cc.director.getScene().name == "Stage1") {
+                    gameData.stage1Cleared = true; // Mark Stage 1 as cleared
+                }
+                else if (cc.director.getScene().name == "Stage2") {
+                    gameData.stage2Cleared = true; // Mark Stage 2 as cleared
+                }
                 cc.audioEngine.setFinishCallback(id, () => {
                     this.audioMgr.playWin();
                     this.startPlayerWinAnim = true;

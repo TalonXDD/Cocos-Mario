@@ -4,8 +4,8 @@
 
 |**Basic Component**|**Score**|**Check**|
 |:-:|:-:|:-:|
-|Complete Game Process|5%|N|
-|Basic Rules|45%|N|
+|Complete Game Process|5%|Y|
+|Basic Rules|45%|Y|
 |Animations|10%|Y|
 |Sound Effects|10%|Y|
 |UI|10%|Y|
@@ -21,23 +21,27 @@
 ---
 
 ## Basic Components Description : 
-1. World map : [xxxx]
+1. World map : 
+    * Stage 1
+    * Stage 2
+
 2. Player : 
     * Control
         * W / Space / ↑ : Jump (Height depends on the length player holds the key)
         * A / ← : Left
         * D / → : Right
         * Shift (Hold) : Run
-    * If player touched the enemies, it will get hurt or die if it is in small size.
-    * If player fell into the void or ran out of time, it will be instant killed.
-    * Find the way to the goal!
+    * If the player touches an enemy, they will get hurt or die if they are in small size.
+    * If the player falls into the void or runs out of time, they will be instantly killed.
+    * If the player runs out of lives, it's GAME OVER!!!
+    * Find your way to the goal!
 3. Enemies : 
     * Goomba (栗寶寶)
         * Slow, easy to kill.
     * Koppa (慢慢龜)
-        * Slow as Goomba if it doesn't hide into the shell.
-        * Shell is very fast and dangerous if kicked. Need to be careful.
-4. Question Blocks : I have 2 kinds of block. Player can hit the blocks or stand on them.
+        * As slow as Goomba if it hasn't hidden in its shell.
+        * The shell is very fast and dangerous when kicked. Be careful!
+4. Question Blocks : There are two kinds of blocks. The player can hit or stand on them.
     * Brick
         * Empty (Breakable)
         * Coin
@@ -46,7 +50,7 @@
         * Coin
         * Item, e.g. red mushroom
 5. Animations : 
-    * Player: 
+    * Player: Both small and big forms have animations.
         * Walk
         * Run
         * Jump
@@ -63,21 +67,23 @@
         * Title scene
         * Stage select scene
         * Stages
-        * Player dead (我認為用成BGM比較合理)
         * Win
         * Gameover
     * SE: 
         * Title scene start
         * Stage select buttons
         * Player jump
+        * Player dead
         * Block & item interactions
         * Enemy interactions
+        * Time converted to score
 7. UI : 
     * Lives
     * Coins
     * Timer
-    * Also have the loading screen
+    * Loading screen 
+    * Game Over screen
 
 ## Advanced Component Description : 
-
-Describe your advanced function and how to use it.
+1. Invisible coins. The player needs to touch them once, or they can't be collected.
+2. After the player reaches the goal pole, the remaining time will be converted into score.

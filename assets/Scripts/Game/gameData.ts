@@ -7,6 +7,8 @@ export default class gameData extends cc.Component {
     static coins: number = 0;
     static lives: number = 5;
     static playerHealth: number = 1;
+    static stage1Cleared: boolean = false;
+    static stage2Cleared: boolean = false;
 
     // LIFE-CYCLE CALLBACKS:
 
