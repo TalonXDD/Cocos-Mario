@@ -85,12 +85,13 @@
     * Game Over screen
 
 ## Advanced Component Description : 
-1. No leaderboard :(
-2. No offline/online multi-player game :(
+1. No leaderboard. :(
+2. No offline/online multi-player game. :(
 3. Other cool functions:
-    * The jump height depends on how long the player holds the jump key. 
-    * Invisible coins. The player needs to touch them once, or they can't be collected.
+    * The jump height depends on how long the player holds the jump key.
+    * Invisible coins: The player needs to touch them once before they can be collected.
     * After the player reaches the goal pole, the remaining time will be converted into score.
+    * A counter records the number of times the player gets a Game Over. OuO
 
 ## Some Reminder :
 * Since Mario is using box collider, if you found that Mario stucks on a line of blocks, don't be scared, just need a jump or move another direction and you can escape the situation.

@@ -110,6 +110,8 @@ export default class gameManager extends cc.Component {
                     gameData.resetData(); // Reset game data
                     cc.director.loadScene("StageSelect");
                 }, 8);
+
+                this.callOnce = false; // Reset flag after handling
             }
         }
     }
