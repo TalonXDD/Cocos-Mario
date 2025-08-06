@@ -34,6 +34,7 @@ export default class stageSelectManager extends cc.Component {
         this.coinsLabel = cc.find("Canvas/UI/Coin/Label").getComponent(cc.Label);
         this.scoreLabel = cc.find("Canvas/UI/Score/Label").getComponent(cc.Label);
         this.updateUI();
+        cc.game.canvas.style.cursor = "default"; // Reset cursor style
     }
 
     // update (dt) {}

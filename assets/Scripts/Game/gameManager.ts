@@ -52,6 +52,8 @@ export default class gameManager extends cc.Component {
         this.scheduleOnce(() => {
             this.startGame();
         }, 2); // Start the game after 2 seconds
+
+        cc.game.canvas.style.cursor = "none";
     }
 
     update (dt) {

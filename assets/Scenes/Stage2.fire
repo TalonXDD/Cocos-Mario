@@ -4895,7 +4895,7 @@
     "node": {
       "__id__": 129
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -46112,7 +46112,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        1915.789,
+        1916,
         -151.833,
         0,
         0,
@@ -46314,7 +46314,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        1995.105,
+        1996,
         -151.833,
         0,
         0,
@@ -46516,7 +46516,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        2079.378,
+        2076,
         -151.833,
         0,
         0,

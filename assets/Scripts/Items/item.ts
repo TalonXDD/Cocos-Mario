@@ -11,7 +11,6 @@ export default class item extends cc.Component {
 
     protected anim: cc.Animation = null;
     protected rb: cc.RigidBody = null;
-    protected boxCollider: cc.PhysicsBoxCollider = null;
     protected circleCollider: cc.PhysicsCircleCollider = null;
 
     @property()
@@ -30,7 +29,6 @@ export default class item extends cc.Component {
         this.audioMgr = cc.find("AudioManager").getComponent("audioManager");
         this.anim = this.getComponent(cc.Animation);
         this.rb = this.getComponent(cc.RigidBody);
-        this.boxCollider = this.getComponent(cc.PhysicsBoxCollider);
         this.circleCollider = this.getComponent(cc.PhysicsCircleCollider);
     }
 
@@ -84,7 +82,6 @@ export default class item extends cc.Component {
             .by(0.5, { y: 24 })
             .call(() => {
                 this.setDirection(direction);
-                this.boxCollider.enabled = true; // 啟用碰撞檢測
                 this.circleCollider.enabled = true; // 啟用圓形碰撞檢測
                 this.collectable = true; // 標記為可被收集
                 this.moveable = true; // 開始可以移動
