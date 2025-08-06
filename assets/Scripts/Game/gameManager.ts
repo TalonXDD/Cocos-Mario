@@ -36,11 +36,6 @@ export default class gameManager extends cc.Component {
     public startPlayerWinAnim: boolean = false;
 
     private callOnce: boolean = false; // Flag to ensure certain actions are called only once
-
-    private t2sActive: boolean = false; // Flag to check if time2Score is active
-    private t2sTimer: number = 0; // Timer for time2Score
-    private t2sInterval: number = 1/5000; // Interval for time2Score callback
-    private t2sRepeat: number = 0; // Repeat count for time2Score
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -73,16 +68,16 @@ export default class gameManager extends cc.Component {
         }
         else if (this.getGameState() == GameState.DIED) {
             if (this.callOnce) {
-                if (this.getLives() <= 0) {
-                    this.setGameState(GameState.GAMEOVER);
-                }
-                else {
-                    this.scheduleOnce(() => {
+                this.scheduleOnce(() => {
+                    if (this.getLives() <= 0) {
+                        this.gameOver(); 
+                    }
+                    else {
                         this.setPlayerHealth(1); // Reset player health to small
                         this.SaveGameData();
                         cc.director.loadScene(cc.director.getScene().name);
-                    }, 2.5);
-                }
+                    }
+                }, 2.5);
                 this.callOnce = false; // Reset flag after handling
             }
         }
@@ -95,27 +90,18 @@ export default class gameManager extends cc.Component {
                     this.startPlayerWinAnim = true;
                     this.scheduleOnce(() => {
                         this.time2Score();
-                    }, 3.5);
+                    }, 3.5)
                 });
+
                 this.callOnce = false;
             }
-            if (this.t2sActive) {
-                this.t2sTimer += dt;
-                if (this.t2sTimer >= this.t2sInterval) {
-                    this.t2sTimer -= this.t2sInterval;
-                    this.setTimer(this.getTimer() - 1);
-                    this.addScore(50);
-                    this.t2sRepeat--;
-                    if (this.t2sRepeat <= 0) {
-                        this.t2sActive = false;
-                        this.audioMgr.stopEffect();
-                        this.audioMgr.playTime2ScoreDone();
-                        this.scheduleOnce(() => {
-                            this.SaveGameData();
-                            cc.director.loadScene("StageSelect");
-                        }, 1);
-                    }
-                }
+        }
+        else if (this.getGameState() == GameState.GAMEOVER) {
+            if (this.callOnce) {
+                this.scheduleOnce(() => {
+                    gameData.resetData(); // Reset game data
+                    cc.director.loadScene("StageSelect");
+                }, 8);
             }
         }
     }
@@ -288,12 +274,14 @@ export default class gameManager extends cc.Component {
     playerWon(): void {
         this.setGameState(GameState.WIN);
         this.callOnce = true; 
-        cc.log("Player Won! Congratulations!");
+        cc.log("Player Won!");
     }
 
     gameOver(): void {
+        this.setGameState(GameState.GAMEOVER);
         this.audioMgr.playGameOver();
-        cc.log("Player has no lives left. Game Over!");
+        this.callOnce = true; 
+        cc.log("Game Over!");
     }
 
     collectCoin(): void {
@@ -333,8 +321,41 @@ export default class gameManager extends cc.Component {
 
     time2Score(): void {
         this.audioMgr.playTime2Score();
-        this.t2sActive = true;
-        this.t2sTimer = 0; // Reset timer for time2Score
-        this.t2sRepeat = Math.ceil(this.getTimer());
+        const repeat = Math.ceil(this.getTimer());
+        this.schedule(this.time2ScoreCallBack, 1/20, repeat);
+    }
+
+    time2ScoreCallBack(): void {
+        const timerValue = this.getTimer();
+        if (timerValue > 0) {
+            let h = Math.floor(timerValue / 100)
+            let t = Math.floor((timerValue % 100) / 10)
+            let o = timerValue % 10
+            let reduce = 0
+            let add = 0
+            if (h > 0) {
+                reduce += 100;
+                add += 50 * 100;
+            }
+            if (t > 0) {
+                reduce += 10
+                add += 50 * 10;
+            }
+            if (o > 0) {
+                reduce += 1;
+                add += 50;
+            }
+            this.setTimer(timerValue - reduce);
+            this.addScore(add);
+        }
+        else {
+            this.audioMgr.stopEffect();
+            this.audioMgr.playTime2ScoreDone();
+            this.scheduleOnce(() => {
+                this.SaveGameData();
+                cc.director.loadScene("StageSelect");
+            }, 1);
+            this.unschedule(this.time2ScoreCallBack);
+        }
     }
 }

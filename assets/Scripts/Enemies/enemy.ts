@@ -36,6 +36,8 @@ export default class enemy extends cc.Component {
 
         let characterNode = this.node.parent.parent.parent; // Get the parent node (Enemy)
         this.player = cc.find("Player/mario", characterNode); // Find Player/mario
+        this.isDead = false;
+        this.dangerous = false;
     }
 
     update (dt) {

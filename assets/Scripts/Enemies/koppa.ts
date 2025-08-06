@@ -29,6 +29,8 @@ export default class koppa extends enemy {
         if (this.polygonCollider) {
             this.polyPoints = this.polygonCollider.points.map(p => cc.v2(p));
         }
+        this.isShell = false;
+        this.kickable = false;
     }
 
     update (dt) {

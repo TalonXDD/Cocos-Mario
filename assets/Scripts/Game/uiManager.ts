@@ -15,6 +15,8 @@ export default class uiManager extends cc.Component {
     private coinsLabel: cc.Label = null;
     private scoreLabel: cc.Label = null;
 
+    private gameOverScreen: cc.Node = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -29,11 +31,14 @@ export default class uiManager extends cc.Component {
         this.livesLabel = cc.find("GameUI/UI/GameStates/Lives/Label").getComponent(cc.Label);
         this.coinsLabel = cc.find("GameUI/UI/GameStates/Coin/Label").getComponent(cc.Label);
         this.scoreLabel = cc.find("GameUI/UI/GameStates/Score/Label").getComponent(cc.Label);
+
+        this.gameOverScreen = cc.find("GameUI/UI/GameOverScreen");
     }
 
     update (dt) {
         if (this.gameMgr.getGameState() == GameState.LOADING) {
             this.loadingScreen.active = true;
+            this.gameOverScreen.active = false;
             // 取得當前場景名稱
             const sceneName = cc.director.getScene().name; // 例如 "Stage1"
             // 將 "Stage1" 轉換為 "Stage 1"
@@ -41,8 +46,13 @@ export default class uiManager extends cc.Component {
             this.loadingStage.string = formattedStage;
             this.loadingLives.string = "x" + this.gameMgr.getLives().toString().padStart(2, '0');
         } 
+        else if (this.gameMgr.getGameState() == GameState.GAMEOVER) {
+            this.loadingScreen.active = false;
+            this.gameOverScreen.active = true;
+        }
         else {
             this.loadingScreen.active = false;
+            this.gameOverScreen.active = false;
         }
         this.updateUI();
     }

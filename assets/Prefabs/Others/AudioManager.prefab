@@ -90,6 +90,15 @@
     "hurryUp": {
       "__uuid__": "830fba06-1102-4d6b-a9c8-ddbcfbada656"
     },
+    "goalFlag": {
+      "__uuid__": "ea3f9a84-cb9c-4f6e-be86-1cd79d4d6cc7"
+    },
+    "time2Score": {
+      "__uuid__": "85510611-72ae-4e4c-abcc-e6fef9df6e35"
+    },
+    "time2ScoreDone": {
+      "__uuid__": "bd1d12f9-c7b6-4221-a42f-458b28b45445"
+    },
     "win": {
       "__uuid__": "b238b8a5-d912-4294-8276-78ad6ddee4cb"
     },

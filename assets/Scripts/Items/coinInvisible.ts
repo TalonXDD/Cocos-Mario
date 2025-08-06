@@ -3,7 +3,7 @@ import item from "./item";
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class coinInvicible extends item {
+export default class coinInvisible extends item {
 
     @property()
     changeTime: number = 0.5;

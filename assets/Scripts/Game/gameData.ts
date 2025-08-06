@@ -17,4 +17,11 @@ export default class gameData extends cc.Component {
     }
 
     // update (dt) {}
+
+    static resetData() {
+        this.score = 0;
+        this.coins = 0;
+        this.lives = 5;
+        this.playerHealth = 1;
+    }
 }

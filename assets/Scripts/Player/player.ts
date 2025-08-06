@@ -31,7 +31,7 @@ export default class player extends cc.Component {
     private run: boolean = false;
     private isJumping: boolean = false;
     private isHoldingJump: boolean = false;
-    private invisible: boolean = false; // Player is invisible
+    public invisible: boolean = false; // Player is invisible
     private isDead: boolean = false; // Player is dead
 
     // Animation properties
@@ -43,9 +43,6 @@ export default class player extends cc.Component {
     private isLeftDown: boolean = false;
     private isRightDown: boolean = false;
     private isShiftDown: boolean = false;
-
-    // Testing variables
-    private contact: any = null; // Placeholder for contact object
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -97,7 +94,7 @@ export default class player extends cc.Component {
         }
         // Debugging controls
         else if (event.keyCode == cc.macro.KEY.i) {
-            this.node.position = cc.v3(2000, 92, 0);
+            this.node.setPosition(2200, 92);
         }
         else if (event.keyCode == cc.macro.KEY.o) {
             if (this.gameMgr.getPlayerHealth() == 1) {
@@ -147,7 +144,8 @@ export default class player extends cc.Component {
             if (other.node.name == "Orange" && normalY != -1) { // One-Way platform
                 contact.disabled = true; // Disable contact to prevent further collisions
             }
-            else if (normalY == -1) {
+            else if (normalY < -0.6) {
+                // this.node.setPosition(this.node.x, (this.node.y + 1000));
                 this.resetJump();
             }
             else if (normalY == 1) { // Player hit head
@@ -158,7 +156,7 @@ export default class player extends cc.Component {
         else if (other.node.group == "Enemy") {
             let enemyDead = other.getComponent(other.node.name).isDead;
             if (other.node.name == "goomba") {
-                if (normalY < -0.6) {
+                if (normalY < -0.6 || (normalY < -0.3 && this.rb.linearVelocity.y < 0)) {
                     if (enemyDead == false) {
                         this.gameMgr.enemyHurt(); // Player hurt the enemy
                         other.getComponent("goomba").isDead = true; // Mark enemy as dead
@@ -177,11 +175,14 @@ export default class player extends cc.Component {
                     this.tempInvisible(2, true);
                     this.changeSmall();
                 }
+                else if (this.invisible) {
+                    contact.disabled = true;
+                }
             }
             else if (other.node.name == "koppa") {
                 let isShell = other.getComponent("koppa").isShell;
                 let kickable = other.getComponent("koppa").kickable;
-                if (normalY < -0.6) {
+                if (normalY < -0.6 || (normalY < -0.3 && this.rb.linearVelocity.y < 0)) {
                     this.isJumping = true;
                     this.rb.linearVelocity = cc.v2(this.rb.linearVelocity.x, this.jumpSpeed); // Apply jump speed
                     if (!isShell || (isShell && !kickable)) {
@@ -208,6 +209,9 @@ export default class player extends cc.Component {
                     this.tempInvisible(2, true);
                     this.changeSmall();
                 }
+                else if (this.invisible) {
+                    contact.disabled = true;
+                }
             }
         }
         else if (other.node.group == "Item") {
@@ -223,6 +227,7 @@ export default class player extends cc.Component {
             }
             else if (other.node.name == "mushroom1Up") {
                 this.gameMgr.collectMushroom1Up();
+                cc.log(cc.director.getTotalTime());
             }
             else if (other.node.name == "starCoin") {
                 this.gameMgr.addScore(4000);
@@ -257,14 +262,12 @@ export default class player extends cc.Component {
             this.deadMovingAnim();
             this.tempInvisible(3, false);
         }
-
-        this.contact = contact; // Store contact for later use
     }
 
     onPreSolve(contact, self, other) {
         let normalY = contact.getWorldManifold().normal.y;
         if (other.node.group == "Ground" || other.node.group == "Block") {
-            if (normalY == -1) {
+            if (normalY < -0.6) {
                 this.onGround = true;
             }
         }
@@ -273,7 +276,7 @@ export default class player extends cc.Component {
     onEndContact(contact, self, other) {
         let normalY = contact.getWorldManifold().normal.y;
         if (other.node.group == "Ground" || other.node.group == "Block") {
-            if (normalY == -1) {
+            if (normalY < -0.6) {
                 this.onGround = false;
             }
         }
@@ -430,8 +433,8 @@ export default class player extends cc.Component {
 
     changeBig() {
         this.node.anchorY = 0.25;
-        this.getComponent(cc.PhysicsBoxCollider).size = cc.size(12, 26);
-        this.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(0, 5);
+        this.getComponent(cc.PhysicsBoxCollider).size = cc.size(12, 24);
+        this.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(0, 4);
         this.tempInvisible(1, true);
     }
 
