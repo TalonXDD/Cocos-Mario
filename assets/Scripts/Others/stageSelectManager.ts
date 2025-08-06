@@ -23,6 +23,7 @@ export default class stageSelectManager extends cc.Component {
     private livesLabel: cc.Label = null;
     private coinsLabel: cc.Label = null;
     private scoreLabel: cc.Label = null;
+    private ggLabel: cc.Label = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -33,6 +34,7 @@ export default class stageSelectManager extends cc.Component {
         this.livesLabel = cc.find("Canvas/UI/Lives/Label").getComponent(cc.Label);
         this.coinsLabel = cc.find("Canvas/UI/Coin/Label").getComponent(cc.Label);
         this.scoreLabel = cc.find("Canvas/UI/Score/Label").getComponent(cc.Label);
+        this.ggLabel = cc.find("Canvas/UI/GG/Label").getComponent(cc.Label);
         this.updateUI();
         cc.game.canvas.style.cursor = "default"; // Reset cursor style
     }
@@ -73,5 +75,6 @@ export default class stageSelectManager extends cc.Component {
         this.livesLabel.string = "x" + gameData.lives.toString().padStart(2, '0');
         this.coinsLabel.string = gameData.coins.toString().padStart(2, '0');
         this.scoreLabel.string = gameData.score.toString().padStart(8, '0');
+        this.ggLabel.string = gameData.ggCount.toString().padStart(2, '0');
     }
 }

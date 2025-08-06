@@ -16,7 +16,7 @@
 |Leaderboard|5%|N|
 |Offline multi-player game|5%|N|
 |Online multi-player game|15%|N|
-|Others [name of functions]|1-15%|N|
+|Others [name of functions]|1-15%|Y|
 
 ---
 
@@ -33,7 +33,7 @@
         * Shift (Hold) : Run
     * If the player touches an enemy, they will get hurt or die if they are in small size.
     * If the player falls into the void or runs out of time, they will be instantly killed.
-    * If the player runs out of lives, it's GAME OVER!!!
+    * If the player runs out of lives, it's GAME OVER!!! 
     * Find your way to the goal!
 3. Enemies : 
     * Goomba (栗寶寶)
@@ -85,5 +85,12 @@
     * Game Over screen
 
 ## Advanced Component Description : 
-1. Invisible coins. The player needs to touch them once, or they can't be collected.
-2. After the player reaches the goal pole, the remaining time will be converted into score.
+1. No leaderboard :(
+2. No offline/online multi-player game :(
+3. Other cool functions:
+    * The jump height depends on how long the player holds the jump key. 
+    * Invisible coins. The player needs to touch them once, or they can't be collected.
+    * After the player reaches the goal pole, the remaining time will be converted into score.
+
+## Some Reminder :
+* Since Mario is using box collider, if you found that Mario stucks on a line of blocks, don't be scared, just need a jump or move another direction and you can escape the situation.

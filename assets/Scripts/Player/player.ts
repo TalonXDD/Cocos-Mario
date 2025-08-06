@@ -61,6 +61,12 @@ export default class player extends cc.Component {
         this.direction = 1;
         this.onGround = false;
         this.run = false;
+        if (this.gameMgr.getPlayerHealth() == 1) {
+            this.changeSmall();
+        }
+        else if (this.gameMgr.getPlayerHealth() == 2) {
+            this.changeBig();
+        }
     }
 
     update (dt) {

@@ -7,6 +7,7 @@ export default class gameData extends cc.Component {
     static coins: number = 0;
     static lives: number = 5;
     static playerHealth: number = 1;
+    static ggCount: number = 0; // Game Over Count
     static stage1Cleared: boolean = false;
     static stage2Cleared: boolean = false;
 
@@ -21,9 +22,8 @@ export default class gameData extends cc.Component {
     // update (dt) {}
 
     static resetData() {
-        this.score = 0;
-        this.coins = 0;
         this.lives = 5;
         this.playerHealth = 1;
+        this.ggCount++;
     }
 }

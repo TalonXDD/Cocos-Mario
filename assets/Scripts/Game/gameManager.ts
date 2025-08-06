@@ -330,31 +330,18 @@ export default class gameManager extends cc.Component {
     time2Score(): void {
         this.audioMgr.playTime2Score();
         const repeat = Math.ceil(this.getTimer());
-        this.schedule(this.time2ScoreCallBack, 1/20, repeat);
+        this.schedule(this.time2ScoreCallBack, 0, repeat);
     }
 
     time2ScoreCallBack(): void {
-        const timerValue = this.getTimer();
-        if (timerValue > 0) {
-            let h = Math.floor(timerValue / 100)
-            let t = Math.floor((timerValue % 100) / 10)
-            let o = timerValue % 10
-            let reduce = 0
-            let add = 0
-            if (h > 0) {
-                reduce += 100;
-                add += 50 * 100;
-            }
-            if (t > 0) {
-                reduce += 10
-                add += 50 * 10;
-            }
-            if (o > 0) {
-                reduce += 1;
-                add += 50;
-            }
-            this.setTimer(timerValue - reduce);
-            this.addScore(add);
+        const timerValue = Math.ceil(this.getTimer());
+        if (timerValue > 3) {
+            this.setTimer(timerValue - 3);
+            this.addScore(50 * 3);
+        }
+        else if (timerValue > 0 && timerValue <= 3) {
+            this.setTimer(timerValue - 1);
+            this.addScore(50);
         }
         else {
             this.audioMgr.stopEffect();
